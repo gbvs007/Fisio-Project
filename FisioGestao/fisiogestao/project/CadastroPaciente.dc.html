@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Cadastrar paciente</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0B7A6F}a:hover{color:#075A52}
+.tap{transition:background .15s}
+.tap:hover{background:#E6F4F2 !important}
+.chip{cursor:pointer;transition:background .15s, border-color .15s}
+.chip:hover{border-color:#7FC3BB !important}
+.field:focus-within{border-color:#0B7A6F !important;box-shadow:0 0 0 3px rgba(11,122,111,.15)}
+.save:not(:disabled):hover{background:#086A60 !important}
+.save:not(:disabled):active{transform:translateY(1px)}
+.save:disabled{cursor:not-allowed}
+input,textarea{font:inherit;color:inherit;border:0;outline:0;background:transparent;width:100%}
+textarea{resize:none}
+</style>
+</helmet>
+<div style="width: 390px; min-height: 1300px; box-sizing: border-box; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; color: #0F2E2C; background: #F2F8F7; display: flex; flex-direction: column">
+  <header style="display: flex; align-items: center; gap: 4px; padding: 12px 12px 4px 8px">
+    <a href="Dashboard.dc.html" aria-label="Voltar" class="tap" style="width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0F2E2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>
+    </a>
+    <h1 style="margin: 0; font-size: 20px; font-weight: 800">Cadastrar paciente</h1>
+  </header>
+
+  <form style="flex: 1; display: flex; flex-direction: column; gap: 16px; padding: 8px 20px 20px">
+    <section style="background: #FFFFFF; border-radius: 20px; padding: 18px; box-shadow: 0 1px 3px rgba(15,46,44,.06); display: flex; flex-direction: column; gap: 14px">
+      <h2 style="margin: 0; display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 700"><span style="width: 28px; height: 28px; border-radius: 8px; background: #E3F3F0; color: #0B5F56; display: flex; align-items: center; justify-content: center; font-size: 14px">1</span>Dados pessoais</h2>
+      <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Nome completo <span style="font-weight: 400; color: #4F6462; font-size: 12px; margin-top: -4px">Obrigatório</span>
+        <span class="field" style="display: flex; align-items: center; height: 50px; padding: 0 14px; border: 1.5px solid #CFDFDC; border-radius: 12px; font-size: 16px; font-weight: 400"><input type="text" placeholder="Nome e sobrenome" value="{{nome}}" onChange="{{onNome}}"></span>
+      </label>
+      <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">CPF <span style="font-weight: 400; color: #4F6462; font-size: 12px; margin-top: -4px">Obrigatório</span>
+        <span class="field" style="display: flex; align-items: center; height: 50px; padding: 0 14px; border: 1.5px solid #CFDFDC; border-radius: 12px; font-size: 16px; font-weight: 400"><input type="text" inputmode="numeric" placeholder="000.000.000-00" value="{{cpf}}" onChange="{{onCpf}}"></span>
+      </label>
+    </section>
+
+    <section style="background: #FFFFFF; border-radius: 20px; padding: 18px; box-shadow: 0 1px 3px rgba(15,46,44,.06); display: flex; flex-direction: column; gap: 14px">
+      <h2 style="margin: 0; display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 700"><span style="width: 28px; height: 28px; border-radius: 8px; background: #E3F3F0; color: #0B5F56; display: flex; align-items: center; justify-content: center; font-size: 14px">2</span>Endereço</h2>
+      <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">CEP
+        <span class="field" style="display: flex; align-items: center; gap: 8px; height: 50px; padding: 0 6px 0 14px; border: 1.5px solid #CFDFDC; border-radius: 12px; font-size: 16px; font-weight: 400"><input type="text" inputmode="numeric" placeholder="00000-000"><span style="font-size: 13px; font-weight: 600; color: #0B7A6F; white-space: nowrap; padding: 0 8px">Preenche o resto</span></span>
+      </label>
+      <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Rua
+        <span class="field" style="display: flex; align-items: center; height: 50px; padding: 0 14px; border: 1.5px solid #CFDFDC; border-radius: 12px; font-size: 16px; font-weight: 400"><input type="text" placeholder="Rua, avenida…"></span>
+      </label>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+        <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Número
+          <span class="field" style="display: flex; align-items: center; height: 50px; padding: 0 14px; border: 1.5px solid #CFDFDC; border-radius: 12px; font-size: 16px; font-weight: 400"><input type="text" placeholder="Nº"></span>
+        </label>
+        <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Complemento
+          <span class="field" style="display: flex; align-items: center; height: 50px; padding: 0 14px; border: 1.5px solid #CFDFDC; border-radius: 12px; font-size: 16px; font-weight: 400"><input type="text" placeholder="Apto, bloco"></span>
+        </label>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px">
+        <label style="grid-column: span 2; display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Cidade
+          <span class="field" style="display: flex; align-items: center; height: 50px; padding: 0 14px; border: 1.5px solid #CFDFDC; border-radius: 12px; font-size: 16px; font-weight: 400"><input type="text" placeholder="Cidade"></span>
+        </label>
+        <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">UF
+          <span class="field" style="display: flex; align-items: center; height: 50px; padding: 0 14px; border: 1.5px solid #CFDFDC; border-radius: 12px; font-size: 16px; font-weight: 400"><input type="text" placeholder="SP"></span>
+        </label>
+      </div>
+    </section>
+
+    <section style="background: #FFFFFF; border-radius: 20px; padding: 18px; box-shadow: 0 1px 3px rgba(15,46,44,.06); display: flex; flex-direction: column; gap: 14px">
+      <h2 style="margin: 0; display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 700"><span style="width: 28px; height: 28px; border-radius: 8px; background: #E3F3F0; color: #0B5F56; display: flex; align-items: center; justify-content: center; font-size: 14px">3</span>Tipo de anamnese</h2>
+      <div role="group" aria-label="Tipo de anamnese" style="display: flex; flex-wrap: wrap; gap: 8px">
+        <sc-for list="{{tipos}}" as="t" hint-placeholder-count="7">
+          <button type="button" class="chip" onClick="{{t.pick}}" aria-pressed="{{t.pressed}}" style="{{t.style}}">{{t.label}}</button>
+        </sc-for>
+      </div>
+      <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Queixa principal
+        <span class="field" style="display: flex; padding: 12px 14px; border: 1.5px solid #CFDFDC; border-radius: 12px; font-size: 16px; font-weight: 400"><textarea rows="3" placeholder="Ex.: dor no joelho direito ao subir escadas há 3 meses"></textarea></span>
+      </label>
+    </section>
+
+    <section style="background: #FFFFFF; border-radius: 20px; padding: 18px; box-shadow: 0 1px 3px rgba(15,46,44,.06); display: flex; flex-direction: column; gap: 14px">
+      <h2 style="margin: 0; display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 700"><span style="width: 28px; height: 28px; border-radius: 8px; background: #E3F3F0; color: #0B5F56; display: flex; align-items: center; justify-content: center; font-size: 14px">4</span>Comentários</h2>
+      <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Observações gerais
+        <span class="field" style="display: flex; padding: 12px 14px; border: 1.5px solid #CFDFDC; border-radius: 12px; font-size: 16px; font-weight: 400"><textarea rows="4" placeholder="Informações úteis para os próximos atendimentos"></textarea></span>
+      </label>
+    </section>
+
+    <label style="display: flex; gap: 10px; align-items: flex-start; font-size: 13px; color: #2C4542; line-height: 1.45; padding: 12px 14px; background: #E3F3F0; border-radius: 14px">
+      <input type="checkbox" checked="" style="width: 20px; height: 20px; flex: none; margin: 0; accent-color: #0B7A6F">
+      <span>O paciente autorizou o registro dos seus dados de saúde, conforme a LGPD.</span>
+    </label>
+  </form>
+
+  <div style="position: sticky; bottom: 0; display: flex; gap: 12px; padding: 14px 20px 20px; background: #FFFFFF; border-top: 1px solid #DDE9E7">
+    <a href="Dashboard.dc.html" class="tap" style="flex: 1; height: 54px; border-radius: 14px; border: 1.5px solid #CFDFDC; color: #2C4542; text-decoration: none; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px">Cancelar</a>
+    <button type="button" class="save" disabled="{{saveDisabled}}" onClick="{{onSave}}" style="{{saveStyle}}">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>
+      {{saveLabel}}
+    </button>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1300}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { nome: '', cpf: '', tipo: 'Ortopédica', saved: false }; }
+  renderVals() {
+    const s = this.state;
+    const disabled = !(s.nome.trim() && s.cpf.trim());
+    const tipos = ['Ortopédica', 'Neurológica', 'Esportiva', 'Respiratória', 'Geriátrica', 'Pediátrica', 'Outra'].map((label) => {
+      const on = s.tipo === label;
+      return {
+        label, pressed: on ? 'true' : 'false',
+        pick: () => this.setState({ tipo: label }),
+        style: 'height: 44px; padding: 0 16px; border-radius: 12px; font: inherit; font-size: 14px; font-weight: 600; border: 1.5px solid ' + (on ? '#0B7A6F' : '#CFDFDC') + '; background: ' + (on ? '#E3F3F0' : '#FFFFFF') + '; color: ' + (on ? '#0B5F56' : '#2C4542')
+      };
+    });
+    return {
+      nome: s.nome, cpf: s.cpf, tipos,
+      onNome: (e) => this.setState({ nome: e.target.value, saved: false }),
+      onCpf: (e) => this.setState({ cpf: e.target.value, saved: false }),
+      onSave: () => this.setState({ saved: true }),
+      saveDisabled: disabled,
+      saveLabel: s.saved ? 'Salvo' : 'Salvar paciente',
+      saveStyle: 'flex: 2; height: 54px; border: 0; border-radius: 14px; font: inherit; font-weight: 700; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; transition: background .15s; background: ' + (disabled ? '#DCE5E3' : '#0B7A6F') + '; color: ' + (disabled ? '#6B7C7A' : '#FFFFFF') + '; box-shadow: ' + (disabled ? 'none' : '0 4px 12px rgba(11,122,111,.25)')
+    };
+  }
+}
+</script>
+</body>
+</html>

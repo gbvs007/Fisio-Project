@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Ficha do paciente</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0B7A6F}a:hover{color:#075A52}
+.tap{transition:background .15s}
+.tap:hover{background:#E6F4F2 !important}
+.tab{cursor:pointer;transition:background .15s, color .15s}
+.tab:hover{background:#E6F4F2 !important}
+.pdf:hover{background:#E6F4F2 !important}
+.pdf:active{transform:translateY(1px)}
+.primary:hover{background:#086A60 !important}
+.media{cursor:pointer;transition:box-shadow .15s}
+.media:hover{box-shadow:0 6px 18px rgba(15,46,44,.16) !important}
+.field:focus-within{border-color:#0B7A6F !important;box-shadow:0 0 0 3px rgba(11,122,111,.15)}
+input,textarea{font:inherit;color:inherit;border:0;outline:0;background:transparent;width:100%}
+textarea{resize:none}
+</style>
+</helmet>
+<div style="width: 390px; min-height: 1180px; box-sizing: border-box; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; color: #0F2E2C; background: #F2F8F7; display: flex; flex-direction: column">
+  <header style="display: flex; align-items: center; gap: 4px; padding: 12px 12px 4px 8px">
+    <a href="Pacientes.dc.html" aria-label="Voltar para pacientes" class="tap" style="width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0F2E2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>
+    </a>
+    <div style="font-size: 16px; font-weight: 700">Ficha do paciente</div>
+    <button type="button" aria-label="Editar dados do paciente" class="tap" style="margin-left: auto; width: 48px; height: 48px; border: 0; border-radius: 12px; background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F2E2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4z"></path><path d="M13.5 6.5l4 4"></path></svg>
+    </button>
+  </header>
+
+  <section style="margin: 4px 20px 0; background: #FFFFFF; border-radius: 20px; padding: 18px; box-shadow: 0 1px 3px rgba(15,46,44,.06); display: flex; flex-direction: column; gap: 14px">
+    <div style="display: flex; gap: 14px; align-items: center">
+      <span style="width: 56px; height: 56px; flex: none; border-radius: 50%; background: #E3EEF9; color: #1B5B8F; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 19px">MO</span>
+      <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
+        <h1 style="margin: 0; font-size: 19px; font-weight: 800; line-height: 1.2">Marcos Oliveira Santos</h1>
+        <span style="font-size: 13px; color: #4F6462">CPF •••.482.317-•• · 34 anos</span>
+        <span style="display: flex; gap: 6px; margin-top: 4px"><span style="font-size: 12px; font-weight: 600; padding: 3px 8px; border-radius: 6px; background: #E3F3F0; color: #0B5F56">Ortopédica</span><span style="font-size: 12px; font-weight: 600; padding: 3px 8px; border-radius: 6px; background: #E3EEF9; color: #1B5B8F">Sessão 8 de 12</span></span>
+      </div>
+    </div>
+    <div style="display: flex; gap: 10px">
+      <button type="button" class="primary" style="flex: 1; height: 48px; border: 0; border-radius: 12px; background: #0B7A6F; color: #FFFFFF; font: inherit; font-weight: 700; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>Nova sessão</button>
+      <button type="button" class="pdf" style="flex: 1; height: 48px; border: 1.5px solid #0B7A6F; border-radius: 12px; background: #FFFFFF; color: #0B5F56; font: inherit; font-weight: 700; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0B7A6F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><path d="M14 3v6h6"></path><path d="M12 12v6"></path><path d="M9 15l3 3 3-3"></path></svg>Exportar PDF</button>
+    </div>
+  </section>
+
+  <nav aria-label="Seções da ficha" style="display: flex; gap: 6px; overflow-x: auto; padding: 16px 20px 4px">
+    <sc-for list="{{tabs}}" as="t" hint-placeholder-count="5">
+      <button type="button" class="tab" onClick="{{t.pick}}" aria-pressed="{{t.pressed}}" style="{{t.style}}">{{t.label}}</button>
+    </sc-for>
+  </nav>
+
+  <div style="padding: 12px 20px 28px; display: flex; flex-direction: column; gap: 12px">
+    <sc-if value="{{isAnamnese}}" hint-placeholder-val="{{true}}">
+      <section style="background: #FFFFFF; border-radius: 20px; padding: 18px; box-shadow: 0 1px 3px rgba(15,46,44,.06); display: flex; flex-direction: column; gap: 16px">
+        <div style="display: flex; justify-content: space-between; align-items: center"><h2 style="margin: 0; font-size: 17px; font-weight: 700">Anamnese ortopédica</h2><span style="font-size: 13px; color: #4F6462">10/09/2026</span></div>
+        <div style="display: flex; flex-direction: column; gap: 4px"><div style="font-size: 12px; font-weight: 700; color: #4F6462; text-transform: uppercase; letter-spacing: .04em">Queixa principal</div><div style="font-size: 15px; line-height: 1.5">Dor e instabilidade no joelho direito após entorse jogando futebol.</div></div>
+        <div style="display: flex; flex-direction: column; gap: 4px"><div style="font-size: 12px; font-weight: 700; color: #4F6462; text-transform: uppercase; letter-spacing: .04em">Diagnóstico clínico</div><div style="font-size: 15px; line-height: 1.5">Reconstrução de LCA (pós-operatório, 6 semanas).</div></div>
+        <div style="display: flex; flex-direction: column; gap: 8px">
+          <div style="font-size: 12px; font-weight: 700; color: #4F6462; text-transform: uppercase; letter-spacing: .04em">Dor inicial (EVA)</div>
+          <div style="display: flex; gap: 3px">
+            <span style="flex: 1; height: 10px; border-radius: 3px; background: #0B7A6F"></span><span style="flex: 1; height: 10px; border-radius: 3px; background: #0B7A6F"></span><span style="flex: 1; height: 10px; border-radius: 3px; background: #0B7A6F"></span><span style="flex: 1; height: 10px; border-radius: 3px; background: #0B7A6F"></span><span style="flex: 1; height: 10px; border-radius: 3px; background: #0B7A6F"></span><span style="flex: 1; height: 10px; border-radius: 3px; background: #0B7A6F"></span><span style="flex: 1; height: 10px; border-radius: 3px; background: #0B7A6F"></span><span style="flex: 1; height: 10px; border-radius: 3px; background: #DDE9E7"></span><span style="flex: 1; height: 10px; border-radius: 3px; background: #DDE9E7"></span><span style="flex: 1; height: 10px; border-radius: 3px; background: #DDE9E7"></span>
+          </div>
+          <div style="font-size: 14px; font-weight: 600">7 de 10</div>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+          <div style="background: #F2F8F7; border-radius: 12px; padding: 12px"><div style="font-size: 12px; color: #4F6462; font-weight: 600">Medicamentos</div><div style="font-size: 14px; margin-top: 2px">Anti-inflamatório</div></div>
+          <div style="background: #F2F8F7; border-radius: 12px; padding: 12px"><div style="font-size: 12px; color: #4F6462; font-weight: 600">Atividade física</div><div style="font-size: 14px; margin-top: 2px">Futebol, 2×/semana</div></div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 4px"><div style="font-size: 12px; font-weight: 700; color: #4F6462; text-transform: uppercase; letter-spacing: .04em">Objetivos</div><div style="font-size: 15px; line-height: 1.5">Recuperar amplitude total e voltar ao esporte em 6 meses.</div></div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{isEvolucao}}" hint-placeholder-val="{{false}}">
+      <section style="background: #FFFFFF; border-radius: 20px; padding: 18px; box-shadow: 0 1px 3px rgba(15,46,44,.06); display: flex; flex-direction: column; gap: 14px">
+        <div style="display: flex; justify-content: space-between; align-items: center"><h2 style="margin: 0; font-size: 17px; font-weight: 700">Ficha de evolução</h2><button type="button" class="tap" style="height: 40px; padding: 0 12px; border: 0; border-radius: 10px; background: transparent; color: #0B7A6F; font: inherit; font-weight: 700; font-size: 14px; cursor: pointer">+ Registrar</button></div>
+        <div style="display: flex; flex-direction: column; gap: 6px">
+          <div style="font-size: 13px; color: #4F6462; font-weight: 600">Dor (EVA) ao longo das sessões</div>
+          <div style="display: flex; align-items: flex-end; gap: 8px; height: 90px; padding: 8px 4px 0; border-bottom: 1.5px solid #DDE9E7">
+            <sc-for list="{{eva}}" as="e" hint-placeholder-count="8">
+              <span style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; justify-content: flex-end; height: 100%"><span style="font-size: 11px; font-weight: 700; color: #2C4542">{{e.v}}</span><span style="{{e.bar}}"></span></span>
+            </sc-for>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 12px; color: #4F6462"><span>Sessão 1</span><span>Sessão 8</span></div>
+        </div>
+        <sc-for list="{{evolucao}}" as="ev" hint-placeholder-count="3">
+          <div style="display: flex; gap: 12px">
+            <div style="display: flex; flex-direction: column; align-items: center"><span style="width: 12px; height: 12px; border-radius: 50%; background: #0B7A6F; margin-top: 4px"></span><span style="flex: 1; width: 2px; background: #DDE9E7"></span></div>
+            <div style="flex: 1; padding-bottom: 12px; display: flex; flex-direction: column; gap: 4px">
+              <div style="display: flex; justify-content: space-between; font-size: 13px"><strong>{{ev.date}}</strong><span style="color: #4F6462">EVA {{ev.eva}}</span></div>
+              <div style="font-size: 14px; line-height: 1.5; color: #2C4542">{{ev.text}}</div>
+            </div>
+          </div>
+        </sc-for>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{isSessoes}}" hint-placeholder-val="{{false}}">
+      <div style="display: flex; justify-content: space-between; align-items: center"><h2 style="margin: 0; font-size: 17px; font-weight: 700">Registro de sessões</h2><span style="font-size: 13px; color: #4F6462">8 realizadas</span></div>
+      <sc-for list="{{sessoes}}" as="s" hint-placeholder-count="4">
+        <article style="background: #FFFFFF; border-radius: 16px; padding: 14px 16px; box-shadow: 0 1px 3px rgba(15,46,44,.06); display: flex; flex-direction: column; gap: 8px">
+          <div style="display: flex; justify-content: space-between; align-items: center"><span style="font-weight: 700; font-size: 15px">Sessão {{s.n}}</span><span style="font-size: 13px; color: #4F6462">{{s.date}} · {{s.dur}}</span></div>
+          <div style="font-size: 14px; line-height: 1.5; color: #2C4542">{{s.text}}</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap"><sc-for list="{{s.tags}}" as="tg"><span style="font-size: 12px; font-weight: 600; padding: 3px 8px; border-radius: 6px; background: #F2F8F7; color: #2C4542">{{tg}}</span></sc-for></div>
+        </article>
+      </sc-for>
+    </sc-if>
+
+    <sc-if value="{{isMidia}}" hint-placeholder-val="{{false}}">
+      <div style="display: flex; justify-content: space-between; align-items: center"><h2 style="margin: 0; font-size: 17px; font-weight: 700">Vídeos e imagens</h2><span style="font-size: 13px; color: #4F6462">6 arquivos</span></div>
+      <button type="button" class="primary" style="height: 52px; border: 0; border-radius: 14px; background: #0B7A6F; color: #FFFFFF; font: inherit; font-weight: 700; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8a2 2 0 0 1 2-2h2l2-2h6l2 2h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>
+        Gravar ou enviar do celular
+      </button>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+        <sc-for list="{{midia}}" as="m" hint-placeholder-count="6">
+          <button type="button" class="media" aria-label="{{m.aria}}" style="padding: 0; border: 0; font: inherit; text-align: left; background: #FFFFFF; border-radius: 14px; overflow: hidden; box-shadow: 0 1px 3px rgba(15,46,44,.08); display: flex; flex-direction: column">
+            <span style="height: 108px; background: #D9E9E6; display: flex; align-items: center; justify-content: center; position: relative">
+              <sc-if value="{{m.video}}" hint-placeholder-val="{{true}}">
+                <span style="width: 40px; height: 40px; border-radius: 50%; background: rgba(15,46,44,.6); display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg></span>
+                <span style="position: absolute; right: 8px; bottom: 8px; font-size: 11px; font-weight: 700; color: #FFFFFF; background: rgba(15,46,44,.7); padding: 2px 6px; border-radius: 5px">{{m.dur}}</span>
+              </sc-if>
+              <sc-if value="{{m.foto}}" hint-placeholder-val="{{false}}">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#4F6462" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"></rect><circle cx="9" cy="10" r="2"></circle><path d="M21 16l-5-5-9 9"></path></svg>
+              </sc-if>
+            </span>
+            <span style="padding: 8px 10px 10px; display: flex; flex-direction: column"><span style="font-size: 13px; font-weight: 600; color: #0F2E2C">{{m.title}}</span><span style="font-size: 12px; color: #4F6462">{{m.date}}</span></span>
+          </button>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{isComentarios}}" hint-placeholder-val="{{false}}">
+      <h2 style="margin: 0; font-size: 17px; font-weight: 700">Comentários</h2>
+      <label class="field" style="display: flex; flex-direction: column; gap: 10px; padding: 12px 14px; background: #FFFFFF; border: 1.5px solid #CFDFDC; border-radius: 14px">
+        <span style="font-size: 13px; font-weight: 600; color: #4F6462">Novo comentário</span>
+        <textarea rows="3" placeholder="Escreva uma observação sobre o paciente" style="font-size: 15px"></textarea>
+        <span style="display: flex; justify-content: flex-end"><span class="primary" style="height: 40px; padding: 0 16px; border-radius: 10px; background: #0B7A6F; color: #FFFFFF; font-weight: 700; font-size: 14px; display: flex; align-items: center">Adicionar</span></span>
+      </label>
+      <sc-for list="{{comentarios}}" as="c" hint-placeholder-count="3">
+        <article style="background: #FFFFFF; border-radius: 16px; padding: 14px 16px; box-shadow: 0 1px 3px rgba(15,46,44,.06); display: flex; flex-direction: column; gap: 6px">
+          <div style="font-size: 13px; color: #4F6462; font-weight: 600">{{c.date}}</div>
+          <div style="font-size: 15px; line-height: 1.5">{{c.text}}</div>
+        </article>
+      </sc-for>
+    </sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"abaInicial":{"editor":"enum","options":["anamnese","evolucao","sessoes","midia","comentarios"],"default":"anamnese"},"$preview":{"width":390,"height":1180}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { tab: null }; }
+  renderVals() {
+    const tab = this.state.tab || this.props.abaInicial || 'anamnese';
+    const defs = [['anamnese', 'Anamnese'], ['evolucao', 'Evolução'], ['sessoes', 'Sessões'], ['midia', 'Vídeos e imagens'], ['comentarios', 'Comentários']];
+    const tabs = defs.map(([id, label]) => {
+      const on = tab === id;
+      return {
+        label, pressed: on ? 'true' : 'false',
+        pick: () => this.setState({ tab: id }),
+        style: 'flex: none; height: 42px; padding: 0 16px; border-radius: 21px; font: inherit; font-size: 14px; font-weight: 700; border: 1.5px solid ' + (on ? '#0B7A6F' : '#CFDFDC') + '; background: ' + (on ? '#0B7A6F' : '#FFFFFF') + '; color: ' + (on ? '#FFFFFF' : '#2C4542')
+      };
+    });
+    const evaVals = [7, 7, 6, 6, 5, 4, 4, 3];
+    return {
+      tabs,
+      isAnamnese: tab === 'anamnese', isEvolucao: tab === 'evolucao', isSessoes: tab === 'sessoes', isMidia: tab === 'midia', isComentarios: tab === 'comentarios',
+      eva: evaVals.map((v) => ({ v, bar: 'width: 100%; border-radius: 4px 4px 0 0; background: #2E86C1; height: ' + (v * 6) + 'px' })),
+      evolucao: [
+        { date: '28/10/2026', eva: '3/10', text: 'Flexão 115°. Marcha sem muletas. Iniciado fortalecimento em cadeia fechada.' },
+        { date: '21/10/2026', eva: '4/10', text: 'Flexão 100°. Edema reduzido. Boa adesão aos exercícios domiciliares.' },
+        { date: '14/10/2026', eva: '5/10', text: 'Flexão 90°. Ainda com leve derrame articular.' }
+      ],
+      sessoes: [
+        { n: 8, date: '28/10', dur: '50 min', text: 'Fortalecimento de quadríceps, propriocepção em disco e bicicleta ergométrica 10 min.', tags: ['Cinesioterapia', 'Propriocepção'] },
+        { n: 7, date: '24/10', dur: '50 min', text: 'Mobilização patelar, ganho de ADM e crioterapia ao final.', tags: ['Terapia manual', 'Crioterapia'] },
+        { n: 6, date: '21/10', dur: '45 min', text: 'Exercícios isométricos e treino de marcha.', tags: ['Cinesioterapia'] },
+        { n: 5, date: '17/10', dur: '45 min', text: 'Eletroestimulação (FES) e alongamentos.', tags: ['Eletroterapia'] }
+      ],
+      midia: [
+        { video: true, foto: false, title: 'Agachamento', date: '28/10', dur: '0:42', aria: 'Vídeo: agachamento, 28/10' },
+        { video: true, foto: false, title: 'Marcha', date: '24/10', dur: '1:05', aria: 'Vídeo: marcha, 24/10' },
+        { video: false, foto: true, title: 'Flexão do joelho', date: '21/10', dur: '', aria: 'Foto: flexão do joelho, 21/10' },
+        { video: true, foto: false, title: 'Exercício em casa', date: '17/10', dur: '0:30', aria: 'Vídeo: exercício em casa, 17/10' },
+        { video: false, foto: true, title: 'Cicatriz', date: '14/10', dur: '', aria: 'Foto: cicatriz, 14/10' },
+        { video: false, foto: true, title: 'Edema', date: '10/10', dur: '', aria: 'Foto: edema, 10/10' }
+      ],
+      comentarios: [
+        { date: '28/10/2026', text: 'Paciente relatou dor leve ao subir escadas. Reforçar exercícios domiciliares.' },
+        { date: '14/10/2026', text: 'Retorno ao ortopedista marcado para novembro. Levar relatório em PDF.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

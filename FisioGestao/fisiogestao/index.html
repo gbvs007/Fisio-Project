@@ -1,0 +1,943 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FisioGestão — Design do App</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#E4EEEC;font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#0F2E2C}
+  .bar{position:sticky;top:0;z-index:10;background:#FFFFFF;border-bottom:1px solid #CFDFDC;padding:10px 16px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .bar strong{margin-right:8px;font-size:16px}
+  .bar a{font-size:13px;font-weight:600;text-decoration:none;color:#2C4542;padding:8px 12px;border-radius:10px;background:#F2F8F7}
+  .bar a[aria-current="page"]{background:#0B7A6F;color:#FFFFFF}
+  .bar a.all{margin-left:auto;border:1.5px solid #0B7A6F;background:#FFFFFF;color:#0B7A6F}
+  .stage{padding:32px 16px;display:flex;flex-wrap:wrap;gap:48px 40px;justify-content:center;align-items:flex-start}
+  .frame{display:flex;flex-direction:column;gap:10px;max-width:100%}
+  .frame h2{margin:0;font-size:14px;font-weight:600;color:#4F6462}
+  .host{background:#FFFFFF;overflow:auto;box-shadow:0 10px 30px rgba(15,46,44,.15);max-width:100%}
+  .frame.fluid{width:100%}
+</style>
+</head>
+<body>
+<nav class="bar" id="bar"></nav>
+<main class="stage" id="stage"></main>
+<template id="tpl-Main"><style>
+body{margin:0}
+a{color:#0B7A6F}a:hover{color:#075A52}
+.btn{transition:background .15s, box-shadow .15s, transform .05s}
+.btn-primary:hover{background:#086A60 !important}
+.btn-primary:active{transform:translateY(1px);background:#075A52 !important}
+.btn-ghost:hover{background:#E6F4F2 !important}
+.field:focus-within{border-color:#0B7A6F !important;box-shadow:0 0 0 3px rgba(11,122,111,.15)}
+input{font:inherit;color:inherit;border:0;outline:0;background:transparent;width:100%}
+</style>
+
+<div style="width: 390px; height: 844px; box-sizing: border-box; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; color: #0F2E2C; background: #F2F8F7; display: flex; flex-direction: column; padding: 56px 24px 28px; gap: 28px">
+  <div style="display: flex; flex-direction: column; align-items: center; gap: 14px; padding-top: 20px">
+    <div style="width: 72px; height: 72px; border-radius: 22px; background: #0B7A6F; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(11,122,111,.25)">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="4.5" r="2"></circle><path d="M12 7v6l-3 7"></path><path d="M12 13l3 7"></path><path d="M7 10h10"></path></svg>
+    </div>
+    <div style="text-align: center">
+      <div style="font-size: 26px; font-weight: 800; letter-spacing: -0.02em">FisioGestão</div>
+      <div style="font-size: 14px; color: #4F6462; margin-top: 4px">Prontuário simples para fisioterapeutas</div>
+    </div>
+  </div>
+
+  <form style="background: #FFFFFF; border-radius: 20px; padding: 24px 20px; box-shadow: 0 1px 2px rgba(15,46,44,.06), 0 8px 24px rgba(15,46,44,.06); display: flex; flex-direction: column; gap: 16px">
+    <div style="display: flex; align-items: center; gap: 8px; font-size: 18px; font-weight: 700">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0B7A6F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>
+      Entrar com segurança
+    </div>
+    <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">
+      E-mail
+      <span class="field" style="display: flex; align-items: center; gap: 10px; height: 52px; padding: 0 14px; border: 1.5px solid #CFDFDC; border-radius: 12px; background: #FFFFFF; font-size: 16px; font-weight: 400">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4F6462" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg>
+        <input type="email" placeholder="seu@email.com.br" value="ana.fisio@email.com.br">
+      </span>
+    </label>
+    <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">
+      Senha
+      <span class="field" style="display: flex; align-items: center; gap: 10px; height: 52px; padding: 0 6px 0 14px; border: 1.5px solid #CFDFDC; border-radius: 12px; background: #FFFFFF; font-size: 16px; font-weight: 400">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4F6462" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>
+        <input type="password" placeholder="Sua senha" value="senhasegura">
+        <button type="button" aria-label="Mostrar senha" class="btn btn-ghost" style="width: 44px; height: 44px; border: 0; border-radius: 10px; background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4F6462" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+        </button>
+      </span>
+    </label>
+    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 14px">
+      <label style="display: flex; align-items: center; gap: 8px; color: #4F6462; min-height: 44px">
+        <input type="checkbox" checked="" style="width: 20px; height: 20px; accent-color: #0B7A6F">
+        Manter conectado
+      </label>
+      <a href="#" style="font-weight: 600; text-decoration: none">Esqueci a senha</a>
+    </div>
+    <a href="Dashboard.dc.html" class="btn btn-primary" style="height: 54px; border-radius: 14px; background: #0B7A6F; color: #FFFFFF; font-size: 17px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; box-shadow: 0 4px 12px rgba(11,122,111,.25)">
+      Entrar
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg>
+    </a>
+  </form>
+
+  <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; font-size: 15px; color: #4F6462">
+    Ainda não tem conta?
+    <a href="CriarConta.dc.html" class="btn btn-ghost" style="height: 48px; width: 100%; box-sizing: border-box; border: 1.5px solid #0B7A6F; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-weight: 700; text-decoration: none; background: transparent">Criar conta e assinar</a>
+  </div>
+
+  <div style="margin-top: auto; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 12px 14px; background: #E3F3F0; border-radius: 12px; font-size: 13px; color: #0F4A44">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0B7A6F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6l8-3z"></path><path d="M8.5 12l2.5 2.5 4.5-5"></path></svg>
+    <span><strong>Dados protegidos</strong> · Criptografia e conformidade com a LGPD</span>
+  </div>
+</div>
+</template>
+<template id="tpl-CriarConta"><style>
+body{margin:0}
+a{color:#0B7A6F}a:hover{color:#075A52}
+.btn{transition:background .15s, box-shadow .15s, transform .05s}
+.btn-primary:hover{background:#086A60 !important}
+.btn-primary:active{transform:translateY(1px);background:#075A52 !important}
+.btn-ghost:hover{background:#E6F4F2 !important}
+.plan{cursor:pointer;transition:border-color .15s, box-shadow .15s}
+.plan:hover{border-color:#7FC3BB !important}
+.field:focus-within{border-color:#0B7A6F !important;box-shadow:0 0 0 3px rgba(11,122,111,.15)}
+input{font:inherit;color:inherit;border:0;outline:0;background:transparent;width:100%}
+</style>
+
+<div style="width: 390px; min-height: 1040px; box-sizing: border-box; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; color: #0F2E2C; background: #F2F8F7; display: flex; flex-direction: column; padding: 20px 20px 28px; gap: 20px">
+  <div style="display: flex; align-items: center; gap: 8px">
+    <a href="Main.dc.html" aria-label="Voltar ao login" class="btn btn-ghost" style="width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0F2E2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>
+    </a>
+    <div style="font-size: 18px; font-weight: 700">Criar conta</div>
+  </div>
+
+  <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: #4F6462">
+    <span style="flex: 1; height: 6px; border-radius: 3px; background: #0B7A6F"></span>
+    <span style="flex: 1; height: 6px; border-radius: 3px; background: #0B7A6F"></span>
+    <span style="flex: 1; height: 6px; border-radius: 3px; background: #CFDFDC"></span>
+    <span style="margin-left: 6px">Etapa 2 de 3</span>
+  </div>
+
+  <section style="display: flex; flex-direction: column; gap: 12px">
+    <h2 style="margin: 0; font-size: 20px; font-weight: 800">Escolha seu plano</h2>
+    <sc-for list="{{plans}}" as="p" hint-placeholder-count="2">
+      <button type="button" class="plan" onClick="{{p.pick}}" aria-pressed="{{p.selected}}" style="{{p.cardStyle}}">
+        <span style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px">
+          <span style="display: flex; flex-direction: column; gap: 2px; text-align: left">
+            <span style="font-size: 16px; font-weight: 700; color: #0F2E2C">{{p.name}}</span>
+            <span style="font-size: 13px; color: #4F6462">{{p.sub}}</span>
+          </span>
+          <span style="{{p.radioStyle}}"><span style="{{p.dotStyle}}"></span></span>
+        </span>
+        <span style="display: flex; align-items: baseline; gap: 4px; color: #0F2E2C">
+          <span style="font-size: 24px; font-weight: 800">{{p.price}}</span>
+          <span style="font-size: 14px; color: #4F6462">{{p.period}}</span>
+        </span>
+      </button>
+    </sc-for>
+    <ul style="margin: 0; padding: 14px 16px; list-style: none; background: #FFFFFF; border-radius: 14px; display: flex; flex-direction: column; gap: 10px; font-size: 14px; color: #2C4542">
+      <li style="display: flex; gap: 10px; align-items: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0B7A6F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>Pacientes ilimitados</li>
+      <li style="display: flex; gap: 10px; align-items: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0B7A6F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>Anamnese, evolução e sessões</li>
+      <li style="display: flex; gap: 10px; align-items: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0B7A6F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>Vídeos e fotos pelo celular</li>
+      <li style="display: flex; gap: 10px; align-items: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0B7A6F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>Exportação da ficha em PDF</li>
+    </ul>
+  </section>
+
+  <section style="background: #FFFFFF; border-radius: 20px; padding: 20px; box-shadow: 0 1px 2px rgba(15,46,44,.06), 0 8px 24px rgba(15,46,44,.06); display: flex; flex-direction: column; gap: 14px">
+    <h2 style="margin: 0; font-size: 17px; font-weight: 700">Seus dados profissionais</h2>
+    <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Nome completo
+      <span class="field" style="display: flex; align-items: center; height: 50px; padding: 0 14px; border: 1.5px solid #CFDFDC; border-radius: 12px; font-size: 16px; font-weight: 400"><input type="text" placeholder="Como aparece no seu registro"></span>
+    </label>
+    <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">CREFITO
+      <span class="field" style="display: flex; align-items: center; height: 50px; padding: 0 14px; border: 1.5px solid #CFDFDC; border-radius: 12px; font-size: 16px; font-weight: 400"><input type="text" placeholder="Ex.: 123456-F"></span>
+    </label>
+    <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">E-mail
+      <span class="field" style="display: flex; align-items: center; height: 50px; padding: 0 14px; border: 1.5px solid #CFDFDC; border-radius: 12px; font-size: 16px; font-weight: 400"><input type="email" placeholder="seu@email.com.br"></span>
+    </label>
+    <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Criar senha
+      <span class="field" style="display: flex; align-items: center; height: 50px; padding: 0 14px; border: 1.5px solid #CFDFDC; border-radius: 12px; font-size: 16px; font-weight: 400"><input type="password" placeholder="Mínimo de 8 caracteres"></span>
+      <span style="display: flex; gap: 4px; margin-top: 2px"><span style="flex: 1; height: 4px; border-radius: 2px; background: #CFDFDC"></span><span style="flex: 1; height: 4px; border-radius: 2px; background: #CFDFDC"></span><span style="flex: 1; height: 4px; border-radius: 2px; background: #CFDFDC"></span></span>
+    </label>
+    <label style="display: flex; gap: 10px; align-items: flex-start; font-size: 13px; color: #4F6462; line-height: 1.45">
+      <input type="checkbox" style="width: 20px; height: 20px; flex: none; margin: 0; accent-color: #0B7A6F">
+      <span>Li e aceito os <a href="#">Termos de uso</a> e a <a href="#">Política de privacidade (LGPD)</a>.</span>
+    </label>
+  </section>
+
+  <div style="display: flex; flex-direction: column; gap: 12px; margin-top: auto">
+    <a href="Dashboard.dc.html" class="btn btn-primary" style="height: 54px; border-radius: 14px; background: #0B7A6F; color: #FFFFFF; font-size: 17px; font-weight: 700; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 4px 12px rgba(11,122,111,.25)">Continuar para pagamento</a>
+    <div style="display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 13px; color: #4F6462">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0B7A6F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>
+      Pagamento seguro · Cancele quando quiser
+    </div>
+  </div>
+</div>
+</template>
+<template id="tpl-Dashboard"><style>
+body{margin:0}
+a{color:#0B7A6F}a:hover{color:#075A52}
+.tap{transition:background .15s, box-shadow .15s, transform .08s}
+.tap:hover{background:#E6F4F2 !important}
+.card-main{transition:box-shadow .15s, transform .08s}
+.card-main:hover{box-shadow:0 10px 28px rgba(15,46,44,.14) !important}
+.card-main:active{transform:scale(.98)}
+.row:hover{background:#F6FBFA !important}
+</style>
+
+<div style="width: 390px; height: 844px; box-sizing: border-box; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; color: #0F2E2C; background: #F2F8F7; display: flex; flex-direction: column; overflow: hidden">
+  <header style="display: flex; align-items: center; justify-content: space-between; padding: 12px 12px 8px 8px; background: #F2F8F7">
+    <a href="MenuAberto.dc.html" aria-label="Abrir menu" class="tap" style="width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0F2E2C" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16"></path><path d="M4 12h16"></path><path d="M4 17h16"></path></svg>
+    </a>
+    <div style="display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 17px">
+      <span style="width: 30px; height: 30px; border-radius: 9px; background: #0B7A6F; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="4.5" r="2"></circle><path d="M12 7v6l-3 7"></path><path d="M12 13l3 7"></path><path d="M7 10h10"></path></svg></span>
+      FisioGestão
+    </div>
+    <a href="#" aria-label="Minha conta" style="width: 40px; height: 40px; border-radius: 50%; background: #D6ECF8; color: #1B5B8F; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px; text-decoration: none">AL</a>
+  </header>
+
+  <main style="flex: 1; display: flex; flex-direction: column; gap: 18px; padding: 8px 20px 20px; overflow: hidden">
+    <div>
+      <div style="font-size: 14px; color: #4F6462">Terça-feira, 28 de outubro</div>
+      <h1 style="margin: 2px 0 0; font-size: 24px; font-weight: 800; letter-spacing: -0.01em">Olá, Dra. Ana</h1>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+      <a href="Pacientes.dc.html" class="card-main" style="min-height: 148px; box-sizing: border-box; padding: 18px 16px; border-radius: 20px; background: #0B7A6F; color: #FFFFFF; text-decoration: none; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 6px 18px rgba(11,122,111,.28)">
+        <span style="width: 48px; height: 48px; border-radius: 14px; background: rgba(255,255,255,.18); display: flex; align-items: center; justify-content: center">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+        </span>
+        <span style="font-size: 17px; font-weight: 700; line-height: 1.25">Consultar<br>Paciente</span>
+      </a>
+      <a href="CadastroPaciente.dc.html" class="card-main" style="min-height: 148px; box-sizing: border-box; padding: 18px 16px; border-radius: 20px; background: #FFFFFF; color: #0F2E2C; text-decoration: none; display: flex; flex-direction: column; justify-content: space-between; border: 1.5px solid #CDE6E2; box-shadow: 0 2px 8px rgba(15,46,44,.06)">
+        <span style="width: 48px; height: 48px; border-radius: 14px; background: #E3F3F0; display: flex; align-items: center; justify-content: center">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0B7A6F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="4"></circle><path d="M2 21c0-3.9 3.1-7 7-7s7 3.1 7 7"></path><path d="M19 8v6"></path><path d="M16 11h6"></path></svg>
+        </span>
+        <span style="font-size: 17px; font-weight: 700; line-height: 1.25">Cadastrar<br>Paciente</span>
+      </a>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px">
+      <div style="background: #FFFFFF; border-radius: 16px; padding: 14px 12px; box-shadow: 0 1px 3px rgba(15,46,44,.06)">
+        <div style="font-size: 24px; font-weight: 800">48</div>
+        <div style="font-size: 12px; color: #4F6462; font-weight: 500">Pacientes ativos</div>
+      </div>
+      <div style="background: #FFFFFF; border-radius: 16px; padding: 14px 12px; box-shadow: 0 1px 3px rgba(15,46,44,.06)">
+        <div style="font-size: 24px; font-weight: 800">5</div>
+        <div style="font-size: 12px; color: #4F6462; font-weight: 500">Sessões hoje</div>
+      </div>
+      <div style="background: #FFFFFF; border-radius: 16px; padding: 14px 12px; box-shadow: 0 1px 3px rgba(15,46,44,.06)">
+        <div style="font-size: 24px; font-weight: 800">23</div>
+        <div style="font-size: 12px; color: #4F6462; font-weight: 500">Sessões na semana</div>
+      </div>
+    </div>
+
+    <section style="background: #FFFFFF; border-radius: 20px; padding: 16px 8px 8px; box-shadow: 0 1px 3px rgba(15,46,44,.06); display: flex; flex-direction: column">
+      <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 10px 8px">
+        <h2 style="margin: 0; font-size: 16px; font-weight: 700">Próximas sessões</h2>
+        <a href="#" style="font-size: 14px; font-weight: 600; text-decoration: none; padding: 10px 4px">Ver todas</a>
+      </div>
+      <sc-for list="{{sessions}}" as="s" hint-placeholder-count="3">
+        <a href="FichaPaciente.dc.html" class="row" style="display: flex; align-items: center; gap: 12px; padding: 10px; border-radius: 14px; text-decoration: none; color: #0F2E2C">
+          <span style="width: 56px; flex: none; text-align: center; padding: 6px 0; border-radius: 10px; background: #E3F3F0; color: #0B5F56; font-weight: 700; font-size: 15px">{{s.time}}</span>
+          <span style="flex: 1; min-width: 0; display: flex; flex-direction: column">
+            <span style="font-weight: 600; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{s.name}}</span>
+            <span style="font-size: 13px; color: #4F6462">{{s.info}}</span>
+          </span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7A8F8C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+        </a>
+      </sc-for>
+    </section>
+  </main>
+
+  <nav aria-label="Navegação principal" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); background: #FFFFFF; border-top: 1px solid #DDE9E7; padding: 6px 8px 14px">
+    <a href="Dashboard.dc.html" aria-current="page" style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 6px 0; text-decoration: none; color: #0B7A6F; font-size: 12px; font-weight: 700">
+      <span style="width: 56px; height: 30px; border-radius: 15px; background: #DDF1EE; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0B7A6F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"></path><path d="M5 10v10h14V10"></path></svg></span>
+      Início
+    </a>
+    <a href="Pacientes.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 6px 0; text-decoration: none; color: #4F6462; font-size: 12px; font-weight: 600">
+      <span style="width: 56px; height: 30px; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4F6462" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="4"></circle><path d="M2 21c0-3.9 3.1-7 7-7s7 3.1 7 7"></path><path d="M16 4.5a4 4 0 0 1 0 7"></path><path d="M19 14.5c1.8 1 3 3 3 6.5"></path></svg></span>
+      Pacientes
+    </a>
+    <a href="#" style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 6px 0; text-decoration: none; color: #4F6462; font-size: 12px; font-weight: 600">
+      <span style="width: 56px; height: 30px; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4F6462" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"></path></svg></span>
+      Minha Conta
+    </a>
+  </nav>
+</div>
+</template>
+<template id="tpl-MenuAberto"><style>
+body{margin:0}
+a{color:#0B7A6F}a:hover{color:#075A52}
+.item{transition:background .15s}
+.item:hover{background:#EEF7F6 !important}
+.item-out:hover{background:#FDEEEC !important}
+</style>
+
+<div style="width: 390px; height: 844px; box-sizing: border-box; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; color: #0F2E2C; background: rgba(15,46,44,.45); display: flex; position: relative; overflow: hidden">
+  <aside style="width: 310px; height: 100%; box-sizing: border-box; background: #FFFFFF; display: flex; flex-direction: column; padding: 16px 12px 20px; box-shadow: 8px 0 32px rgba(15,46,44,.18); border-radius: 0 24px 24px 0">
+    <div style="display: flex; align-items: center; justify-content: space-between; padding: 4px 4px 16px 8px">
+      <div style="display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 17px">
+        <span style="width: 30px; height: 30px; border-radius: 9px; background: #0B7A6F; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="4.5" r="2"></circle><path d="M12 7v6l-3 7"></path><path d="M12 13l3 7"></path><path d="M7 10h10"></path></svg></span>
+        FisioGestão
+      </div>
+      <a href="Dashboard.dc.html" aria-label="Fechar menu" class="item" style="width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0F2E2C" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg>
+      </a>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 12px; padding: 14px 12px; margin-bottom: 12px; background: #F2F8F7; border-radius: 16px">
+      <span style="width: 44px; height: 44px; border-radius: 50%; background: #D6ECF8; color: #1B5B8F; display: flex; align-items: center; justify-content: center; font-weight: 700">AL</span>
+      <span style="display: flex; flex-direction: column; min-width: 0">
+        <span style="font-weight: 700; font-size: 15px">Dra. Ana Lima</span>
+        <span style="font-size: 13px; color: #4F6462">CREFITO 123456-F</span>
+      </span>
+    </div>
+
+    <nav aria-label="Menu" style="display: flex; flex-direction: column; gap: 4px">
+      <a href="Dashboard.dc.html" aria-current="page" class="item" style="display: flex; align-items: center; gap: 14px; height: 52px; padding: 0 14px; border-radius: 14px; background: #DDF1EE; color: #0B5F56; text-decoration: none; font-weight: 700; font-size: 16px">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0B7A6F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"></path><path d="M5 10v10h14V10"></path></svg>
+        Início
+      </a>
+      <a href="Pacientes.dc.html" class="item" style="display: flex; align-items: center; gap: 14px; height: 52px; padding: 0 14px; border-radius: 14px; color: #0F2E2C; text-decoration: none; font-weight: 600; font-size: 16px">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4F6462" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="4"></circle><path d="M2 21c0-3.9 3.1-7 7-7s7 3.1 7 7"></path><path d="M16 4.5a4 4 0 0 1 0 7"></path><path d="M19 14.5c1.8 1 3 3 3 6.5"></path></svg>
+        Pacientes
+      </a>
+      <a href="#" class="item" style="display: flex; align-items: center; gap: 14px; height: 52px; padding: 0 14px; border-radius: 14px; color: #0F2E2C; text-decoration: none; font-weight: 600; font-size: 16px">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4F6462" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"></path></svg>
+        Minha Conta
+      </a>
+    </nav>
+
+    <div style="margin-top: auto; display: flex; flex-direction: column; gap: 12px">
+      <div style="display: flex; align-items: center; gap: 10px; padding: 12px; background: #E3F3F0; border-radius: 12px; font-size: 13px; color: #0F4A44">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0B7A6F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6l8-3z"></path><path d="M8.5 12l2.5 2.5 4.5-5"></path></svg>
+        Assinatura ativa · Plano Mensal
+      </div>
+      <a href="Main.dc.html" class="item item-out" style="display: flex; align-items: center; gap: 14px; height: 52px; padding: 0 14px; border-radius: 14px; color: #B3261E; text-decoration: none; font-weight: 600; font-size: 16px; border: 1.5px solid #F2D4D0">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B3261E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><path d="M16 17l5-5-5-5"></path><path d="M21 12H9"></path></svg>
+        Sair
+      </a>
+    </div>
+  </aside>
+</div>
+</template>
+<template id="tpl-DashboardDesktop"><style>
+body{margin:0;background:#F2F8F7}
+a{color:#0B7A6F}a:hover{color:#075A52}
+.item{transition:background .15s}
+.item:hover{background:#EEF7F6 !important}
+.item-out:hover{background:#FDEEEC !important}
+.card-main{transition:box-shadow .15s, transform .08s}
+.card-main:hover{box-shadow:0 12px 30px rgba(15,46,44,.14) !important}
+.card-main:active{transform:scale(.99)}
+.row:hover{background:#F6FBFA !important}
+.search:focus-within{border-color:#0B7A6F !important;box-shadow:0 0 0 3px rgba(11,122,111,.15)}
+input{font:inherit;color:inherit;border:0;outline:0;background:transparent;width:100%}
+</style>
+
+<div style="min-height: 860px; box-sizing: border-box; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; color: #0F2E2C; background: #F2F8F7; display: flex; flex-wrap: wrap">
+  <aside style="flex: 1 1 240px; max-width: 100%; box-sizing: border-box; background: #FFFFFF; border-right: 1px solid #DDE9E7; padding: 24px 16px; display: flex; flex-direction: column; gap: 24px">
+    <div style="display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 19px; padding: 0 8px">
+      <span style="width: 36px; height: 36px; border-radius: 11px; background: #0B7A6F; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="4.5" r="2"></circle><path d="M12 7v6l-3 7"></path><path d="M12 13l3 7"></path><path d="M7 10h10"></path></svg></span>
+      FisioGestão
+    </div>
+    <nav aria-label="Menu" style="display: flex; flex-direction: column; gap: 4px">
+      <a href="#" aria-current="page" class="item" style="display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 14px; border-radius: 12px; background: #DDF1EE; color: #0B5F56; text-decoration: none; font-weight: 700; font-size: 15px">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0B7A6F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"></path><path d="M5 10v10h14V10"></path></svg>Início</a>
+      <a href="Pacientes.dc.html" class="item" style="display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 14px; border-radius: 12px; color: #0F2E2C; text-decoration: none; font-weight: 600; font-size: 15px">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4F6462" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="4"></circle><path d="M2 21c0-3.9 3.1-7 7-7s7 3.1 7 7"></path><path d="M16 4.5a4 4 0 0 1 0 7"></path><path d="M19 14.5c1.8 1 3 3 3 6.5"></path></svg>Pacientes</a>
+      <a href="#" class="item" style="display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 14px; border-radius: 12px; color: #0F2E2C; text-decoration: none; font-weight: 600; font-size: 15px">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4F6462" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"></path></svg>Minha Conta</a>
+      <a href="Main.dc.html" class="item item-out" style="display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 14px; border-radius: 12px; color: #B3261E; text-decoration: none; font-weight: 600; font-size: 15px">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B3261E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><path d="M16 17l5-5-5-5"></path><path d="M21 12H9"></path></svg>Sair</a>
+    </nav>
+    <div style="margin-top: auto; display: flex; align-items: center; gap: 10px; padding: 12px; background: #E3F3F0; border-radius: 12px; font-size: 13px; color: #0F4A44">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0B7A6F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6l8-3z"></path><path d="M8.5 12l2.5 2.5 4.5-5"></path></svg>
+      <span><strong>Dados protegidos</strong><br>Em conformidade com a LGPD</span>
+    </div>
+  </aside>
+
+  <main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: 28px 32px 40px; display: flex; flex-direction: column; gap: 24px">
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px">
+      <div>
+        <div style="font-size: 14px; color: #4F6462">Terça-feira, 28 de outubro</div>
+        <h1 style="margin: 2px 0 0; font-size: 28px; font-weight: 800; letter-spacing: -0.01em">Olá, Dra. Ana</h1>
+      </div>
+      <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap">
+        <label class="search" style="display: flex; align-items: center; gap: 10px; width: 320px; max-width: 100%; height: 48px; box-sizing: border-box; padding: 0 14px; border: 1.5px solid #CFDFDC; border-radius: 12px; background: #FFFFFF; font-size: 15px">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4F6462" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+          <input type="search" aria-label="Buscar paciente" placeholder="Buscar paciente por nome ou CPF">
+        </label>
+        <span style="width: 44px; height: 44px; border-radius: 50%; background: #D6ECF8; color: #1B5B8F; display: flex; align-items: center; justify-content: center; font-weight: 700">AL</span>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px">
+      <a href="Pacientes.dc.html" class="card-main" style="display: flex; align-items: center; gap: 20px; padding: 28px; border-radius: 22px; background: #0B7A6F; color: #FFFFFF; text-decoration: none; box-shadow: 0 8px 22px rgba(11,122,111,.26)">
+        <span style="width: 64px; height: 64px; flex: none; border-radius: 18px; background: rgba(255,255,255,.18); display: flex; align-items: center; justify-content: center"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg></span>
+        <span style="display: flex; flex-direction: column; gap: 4px"><span style="font-size: 21px; font-weight: 700">Consultar Paciente</span><span style="font-size: 14px; color: #D3EFEB">Abrir ficha, evolução e sessões</span></span>
+      </a>
+      <a href="CadastroPaciente.dc.html" class="card-main" style="display: flex; align-items: center; gap: 20px; padding: 28px; border-radius: 22px; background: #FFFFFF; color: #0F2E2C; text-decoration: none; border: 1.5px solid #CDE6E2; box-shadow: 0 2px 8px rgba(15,46,44,.06)">
+        <span style="width: 64px; height: 64px; flex: none; border-radius: 18px; background: #E3F3F0; display: flex; align-items: center; justify-content: center"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#0B7A6F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="4"></circle><path d="M2 21c0-3.9 3.1-7 7-7s7 3.1 7 7"></path><path d="M19 8v6"></path><path d="M16 11h6"></path></svg></span>
+        <span style="display: flex; flex-direction: column; gap: 4px"><span style="font-size: 21px; font-weight: 700">Cadastrar Paciente</span><span style="font-size: 14px; color: #4F6462">Novo paciente com anamnese</span></span>
+      </a>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px">
+      <div style="background: #FFFFFF; border-radius: 18px; padding: 18px 20px; box-shadow: 0 1px 3px rgba(15,46,44,.06)"><div style="font-size: 13px; color: #4F6462; font-weight: 600">Pacientes ativos</div><div style="font-size: 30px; font-weight: 800; margin-top: 4px">48</div></div>
+      <div style="background: #FFFFFF; border-radius: 18px; padding: 18px 20px; box-shadow: 0 1px 3px rgba(15,46,44,.06)"><div style="font-size: 13px; color: #4F6462; font-weight: 600">Sessões hoje</div><div style="font-size: 30px; font-weight: 800; margin-top: 4px">5</div></div>
+      <div style="background: #FFFFFF; border-radius: 18px; padding: 18px 20px; box-shadow: 0 1px 3px rgba(15,46,44,.06)"><div style="font-size: 13px; color: #4F6462; font-weight: 600">Sessões na semana</div><div style="font-size: 30px; font-weight: 800; margin-top: 4px">23</div></div>
+      <div style="background: #FFFFFF; border-radius: 18px; padding: 18px 20px; box-shadow: 0 1px 3px rgba(15,46,44,.06)"><div style="font-size: 13px; color: #4F6462; font-weight: 600">Novos no mês</div><div style="font-size: 30px; font-weight: 800; margin-top: 4px">6</div></div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 20px">
+      <section style="background: #FFFFFF; border-radius: 20px; padding: 20px 12px 12px; box-shadow: 0 1px 3px rgba(15,46,44,.06)">
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 12px 10px"><h2 style="margin: 0; font-size: 17px; font-weight: 700">Próximas sessões</h2><a href="#" style="font-size: 14px; font-weight: 600; text-decoration: none">Ver todas</a></div>
+        <sc-for list="{{sessions}}" as="s" hint-placeholder-count="4">
+          <a href="FichaPaciente.dc.html" class="row" style="display: flex; align-items: center; gap: 14px; padding: 12px; border-radius: 14px; text-decoration: none; color: #0F2E2C">
+            <span style="width: 60px; flex: none; text-align: center; padding: 6px 0; border-radius: 10px; background: #E3F3F0; color: #0B5F56; font-weight: 700; font-size: 15px">{{s.time}}</span>
+            <span style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-weight: 600; font-size: 15px">{{s.name}}</span><span style="font-size: 13px; color: #4F6462">{{s.info}}</span></span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7A8F8C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+          </a>
+        </sc-for>
+      </section>
+      <section style="background: #FFFFFF; border-radius: 20px; padding: 20px 12px 12px; box-shadow: 0 1px 3px rgba(15,46,44,.06)">
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 12px 10px"><h2 style="margin: 0; font-size: 17px; font-weight: 700">Atualizados recentemente</h2><a href="Pacientes.dc.html" style="font-size: 14px; font-weight: 600; text-decoration: none">Ver pacientes</a></div>
+        <sc-for list="{{recent}}" as="r" hint-placeholder-count="4">
+          <a href="FichaPaciente.dc.html" class="row" style="display: flex; align-items: center; gap: 14px; padding: 12px; border-radius: 14px; text-decoration: none; color: #0F2E2C">
+            <span style="width: 40px; height: 40px; flex: none; border-radius: 50%; background: #E3EEF9; color: #1B5B8F; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px">{{r.ini}}</span>
+            <span style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-weight: 600; font-size: 15px">{{r.name}}</span><span style="font-size: 13px; color: #4F6462">{{r.info}}</span></span>
+            <span style="font-size: 13px; color: #4F6462">{{r.when}}</span>
+          </a>
+        </sc-for>
+      </section>
+    </div>
+  </main>
+</div>
+</template>
+<template id="tpl-Pacientes"><style>
+body{margin:0}
+a{color:#0B7A6F}a:hover{color:#075A52}
+.tap{transition:background .15s}
+.tap:hover{background:#E6F4F2 !important}
+.row{transition:box-shadow .15s}
+.row:hover{box-shadow:0 6px 18px rgba(15,46,44,.10) !important}
+.chip{cursor:pointer;transition:background .15s}
+.search:focus-within{border-color:#0B7A6F !important;box-shadow:0 0 0 3px rgba(11,122,111,.15)}
+.fab:hover{background:#086A60 !important}
+input{font:inherit;color:inherit;border:0;outline:0;background:transparent;width:100%}
+</style>
+
+<div style="width: 390px; height: 844px; box-sizing: border-box; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; color: #0F2E2C; background: #F2F8F7; display: flex; flex-direction: column; overflow: hidden; position: relative">
+  <header style="display: flex; align-items: center; gap: 4px; padding: 12px 12px 4px 8px">
+    <a href="Dashboard.dc.html" aria-label="Voltar" class="tap" style="width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0F2E2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>
+    </a>
+    <h1 style="margin: 0; font-size: 20px; font-weight: 800">Pacientes</h1>
+    <span style="margin-left: auto; font-size: 14px; color: #4F6462; padding-right: 8px">48 cadastrados</span>
+  </header>
+
+  <div style="padding: 8px 20px 12px; display: flex; flex-direction: column; gap: 12px">
+    <label class="search" style="display: flex; align-items: center; gap: 10px; height: 52px; padding: 0 14px; border: 1.5px solid #CFDFDC; border-radius: 14px; background: #FFFFFF; font-size: 16px">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4F6462" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+      <input type="search" aria-label="Buscar por nome ou CPF" placeholder="Buscar por nome ou CPF" value="{{query}}" onChange="{{onQuery}}">
+    </label>
+    <div style="display: flex; gap: 8px; overflow-x: auto">
+      <sc-for list="{{chips}}" as="c" hint-placeholder-count="4">
+        <button type="button" class="chip" onClick="{{c.pick}}" aria-pressed="{{c.pressed}}" style="{{c.style}}">{{c.label}}</button>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="flex: 1; overflow: auto; padding: 0 20px 96px; display: flex; flex-direction: column; gap: 10px">
+    <sc-for list="{{rows}}" as="p" hint-placeholder-count="6">
+      <a href="FichaPaciente.dc.html" class="row" style="display: flex; align-items: center; gap: 12px; padding: 14px; background: #FFFFFF; border-radius: 16px; text-decoration: none; color: #0F2E2C; box-shadow: 0 1px 3px rgba(15,46,44,.06)">
+        <span style="width: 46px; height: 46px; flex: none; border-radius: 50%; background: #E3EEF9; color: #1B5B8F; display: flex; align-items: center; justify-content: center; font-weight: 700">{{p.ini}}</span>
+        <span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px">
+          <span style="font-weight: 700; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{p.name}}</span>
+          <span style="font-size: 13px; color: #4F6462">CPF {{p.cpf}}</span>
+          <span style="display: flex; gap: 6px; margin-top: 4px; flex-wrap: wrap">
+            <span style="font-size: 12px; font-weight: 600; padding: 3px 8px; border-radius: 6px; background: #E3F3F0; color: #0B5F56">{{p.tipo}}</span>
+            <span style="font-size: 12px; color: #4F6462; padding: 3px 0">Última sessão: {{p.last}}</span>
+          </span>
+        </span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7A8F8C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+      </a>
+    </sc-for>
+    <sc-if value="{{empty}}" hint-placeholder-val="{{false}}">
+      <div style="text-align: center; padding: 40px 16px; color: #4F6462; font-size: 15px">Nenhum paciente encontrado.<br><a href="CadastroPaciente.dc.html" style="font-weight: 700">Cadastrar novo paciente</a></div>
+    </sc-if>
+  </div>
+
+  <a href="CadastroPaciente.dc.html" class="fab" style="position: absolute; right: 20px; bottom: 24px; height: 56px; padding: 0 20px 0 16px; border-radius: 18px; background: #0B7A6F; color: #FFFFFF; text-decoration: none; display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 15px; box-shadow: 0 8px 20px rgba(11,122,111,.35)">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>
+    Novo paciente
+  </a>
+</div>
+</template>
+<template id="tpl-CadastroPaciente"><style>
+body{margin:0}
+a{color:#0B7A6F}a:hover{color:#075A52}
+.tap{transition:background .15s}
+.tap:hover{background:#E6F4F2 !important}
+.chip{cursor:pointer;transition:background .15s, border-color .15s}
+.chip:hover{border-color:#7FC3BB !important}
+.field:focus-within{border-color:#0B7A6F !important;box-shadow:0 0 0 3px rgba(11,122,111,.15)}
+.save:not(:disabled):hover{background:#086A60 !important}
+.save:not(:disabled):active{transform:translateY(1px)}
+.save:disabled{cursor:not-allowed}
+input,textarea{font:inherit;color:inherit;border:0;outline:0;background:transparent;width:100%}
+textarea{resize:none}
+</style>
+
+<div style="width: 390px; min-height: 1300px; box-sizing: border-box; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; color: #0F2E2C; background: #F2F8F7; display: flex; flex-direction: column">
+  <header style="display: flex; align-items: center; gap: 4px; padding: 12px 12px 4px 8px">
+    <a href="Dashboard.dc.html" aria-label="Voltar" class="tap" style="width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0F2E2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>
+    </a>
+    <h1 style="margin: 0; font-size: 20px; font-weight: 800">Cadastrar paciente</h1>
+  </header>
+
+  <form style="flex: 1; display: flex; flex-direction: column; gap: 16px; padding: 8px 20px 20px">
+    <section style="background: #FFFFFF; border-radius: 20px; padding: 18px; box-shadow: 0 1px 3px rgba(15,46,44,.06); display: flex; flex-direction: column; gap: 14px">
+      <h2 style="margin: 0; display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 700"><span style="width: 28px; height: 28px; border-radius: 8px; background: #E3F3F0; color: #0B5F56; display: flex; align-items: center; justify-content: center; font-size: 14px">1</span>Dados pessoais</h2>
+      <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Nome completo <span style="font-weight: 400; color: #4F6462; font-size: 12px; margin-top: -4px">Obrigatório</span>
+        <span class="field" style="display: flex; align-items: center; height: 50px; padding: 0 14px; border: 1.5px solid #CFDFDC; border-radius: 12px; font-size: 16px; font-weight: 400"><input type="text" placeholder="Nome e sobrenome" value="{{nome}}" onChange="{{onNome}}"></span>
+      </label>
+      <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">CPF <span style="font-weight: 400; color: #4F6462; font-size: 12px; margin-top: -4px">Obrigatório</span>
+        <span class="field" style="display: flex; align-items: center; height: 50px; padding: 0 14px; border: 1.5px solid #CFDFDC; border-radius: 12px; font-size: 16px; font-weight: 400"><input type="text" inputmode="numeric" placeholder="000.000.000-00" value="{{cpf}}" onChange="{{onCpf}}"></span>
+      </label>
+    </section>
+
+    <section style="background: #FFFFFF; border-radius: 20px; padding: 18px; box-shadow: 0 1px 3px rgba(15,46,44,.06); display: flex; flex-direction: column; gap: 14px">
+      <h2 style="margin: 0; display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 700"><span style="width: 28px; height: 28px; border-radius: 8px; background: #E3F3F0; color: #0B5F56; display: flex; align-items: center; justify-content: center; font-size: 14px">2</span>Endereço</h2>
+      <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">CEP
+        <span class="field" style="display: flex; align-items: center; gap: 8px; height: 50px; padding: 0 6px 0 14px; border: 1.5px solid #CFDFDC; border-radius: 12px; font-size: 16px; font-weight: 400"><input type="text" inputmode="numeric" placeholder="00000-000"><span style="font-size: 13px; font-weight: 600; color: #0B7A6F; white-space: nowrap; padding: 0 8px">Preenche o resto</span></span>
+      </label>
+      <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Rua
+        <span class="field" style="display: flex; align-items: center; height: 50px; padding: 0 14px; border: 1.5px solid #CFDFDC; border-radius: 12px; font-size: 16px; font-weight: 400"><input type="text" placeholder="Rua, avenida…"></span>
+      </label>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+        <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Número
+          <span class="field" style="display: flex; align-items: center; height: 50px; padding: 0 14px; border: 1.5px solid #CFDFDC; border-radius: 12px; font-size: 16px; font-weight: 400"><input type="text" placeholder="Nº"></span>
+        </label>
+        <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Complemento
+          <span class="field" style="display: flex; align-items: center; height: 50px; padding: 0 14px; border: 1.5px solid #CFDFDC; border-radius: 12px; font-size: 16px; font-weight: 400"><input type="text" placeholder="Apto, bloco"></span>
+        </label>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px">
+        <label style="grid-column: span 2; display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Cidade
+          <span class="field" style="display: flex; align-items: center; height: 50px; padding: 0 14px; border: 1.5px solid #CFDFDC; border-radius: 12px; font-size: 16px; font-weight: 400"><input type="text" placeholder="Cidade"></span>
+        </label>
+        <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">UF
+          <span class="field" style="display: flex; align-items: center; height: 50px; padding: 0 14px; border: 1.5px solid #CFDFDC; border-radius: 12px; font-size: 16px; font-weight: 400"><input type="text" placeholder="SP"></span>
+        </label>
+      </div>
+    </section>
+
+    <section style="background: #FFFFFF; border-radius: 20px; padding: 18px; box-shadow: 0 1px 3px rgba(15,46,44,.06); display: flex; flex-direction: column; gap: 14px">
+      <h2 style="margin: 0; display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 700"><span style="width: 28px; height: 28px; border-radius: 8px; background: #E3F3F0; color: #0B5F56; display: flex; align-items: center; justify-content: center; font-size: 14px">3</span>Tipo de anamnese</h2>
+      <div role="group" aria-label="Tipo de anamnese" style="display: flex; flex-wrap: wrap; gap: 8px">
+        <sc-for list="{{tipos}}" as="t" hint-placeholder-count="7">
+          <button type="button" class="chip" onClick="{{t.pick}}" aria-pressed="{{t.pressed}}" style="{{t.style}}">{{t.label}}</button>
+        </sc-for>
+      </div>
+      <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Queixa principal
+        <span class="field" style="display: flex; padding: 12px 14px; border: 1.5px solid #CFDFDC; border-radius: 12px; font-size: 16px; font-weight: 400"><textarea rows="3" placeholder="Ex.: dor no joelho direito ao subir escadas há 3 meses"></textarea></span>
+      </label>
+    </section>
+
+    <section style="background: #FFFFFF; border-radius: 20px; padding: 18px; box-shadow: 0 1px 3px rgba(15,46,44,.06); display: flex; flex-direction: column; gap: 14px">
+      <h2 style="margin: 0; display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 700"><span style="width: 28px; height: 28px; border-radius: 8px; background: #E3F3F0; color: #0B5F56; display: flex; align-items: center; justify-content: center; font-size: 14px">4</span>Comentários</h2>
+      <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Observações gerais
+        <span class="field" style="display: flex; padding: 12px 14px; border: 1.5px solid #CFDFDC; border-radius: 12px; font-size: 16px; font-weight: 400"><textarea rows="4" placeholder="Informações úteis para os próximos atendimentos"></textarea></span>
+      </label>
+    </section>
+
+    <label style="display: flex; gap: 10px; align-items: flex-start; font-size: 13px; color: #2C4542; line-height: 1.45; padding: 12px 14px; background: #E3F3F0; border-radius: 14px">
+      <input type="checkbox" checked="" style="width: 20px; height: 20px; flex: none; margin: 0; accent-color: #0B7A6F">
+      <span>O paciente autorizou o registro dos seus dados de saúde, conforme a LGPD.</span>
+    </label>
+  </form>
+
+  <div style="position: sticky; bottom: 0; display: flex; gap: 12px; padding: 14px 20px 20px; background: #FFFFFF; border-top: 1px solid #DDE9E7">
+    <a href="Dashboard.dc.html" class="tap" style="flex: 1; height: 54px; border-radius: 14px; border: 1.5px solid #CFDFDC; color: #2C4542; text-decoration: none; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px">Cancelar</a>
+    <button type="button" class="save" disabled="{{saveDisabled}}" onClick="{{onSave}}" style="{{saveStyle}}">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>
+      {{saveLabel}}
+    </button>
+  </div>
+</div>
+</template>
+<template id="tpl-FichaPaciente"><style>
+body{margin:0}
+a{color:#0B7A6F}a:hover{color:#075A52}
+.tap{transition:background .15s}
+.tap:hover{background:#E6F4F2 !important}
+.tab{cursor:pointer;transition:background .15s, color .15s}
+.tab:hover{background:#E6F4F2 !important}
+.pdf:hover{background:#E6F4F2 !important}
+.pdf:active{transform:translateY(1px)}
+.primary:hover{background:#086A60 !important}
+.media{cursor:pointer;transition:box-shadow .15s}
+.media:hover{box-shadow:0 6px 18px rgba(15,46,44,.16) !important}
+.field:focus-within{border-color:#0B7A6F !important;box-shadow:0 0 0 3px rgba(11,122,111,.15)}
+input,textarea{font:inherit;color:inherit;border:0;outline:0;background:transparent;width:100%}
+textarea{resize:none}
+</style>
+
+<div style="width: 390px; min-height: 1180px; box-sizing: border-box; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; color: #0F2E2C; background: #F2F8F7; display: flex; flex-direction: column">
+  <header style="display: flex; align-items: center; gap: 4px; padding: 12px 12px 4px 8px">
+    <a href="Pacientes.dc.html" aria-label="Voltar para pacientes" class="tap" style="width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0F2E2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>
+    </a>
+    <div style="font-size: 16px; font-weight: 700">Ficha do paciente</div>
+    <button type="button" aria-label="Editar dados do paciente" class="tap" style="margin-left: auto; width: 48px; height: 48px; border: 0; border-radius: 12px; background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F2E2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4z"></path><path d="M13.5 6.5l4 4"></path></svg>
+    </button>
+  </header>
+
+  <section style="margin: 4px 20px 0; background: #FFFFFF; border-radius: 20px; padding: 18px; box-shadow: 0 1px 3px rgba(15,46,44,.06); display: flex; flex-direction: column; gap: 14px">
+    <div style="display: flex; gap: 14px; align-items: center">
+      <span style="width: 56px; height: 56px; flex: none; border-radius: 50%; background: #E3EEF9; color: #1B5B8F; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 19px">MO</span>
+      <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
+        <h1 style="margin: 0; font-size: 19px; font-weight: 800; line-height: 1.2">Marcos Oliveira Santos</h1>
+        <span style="font-size: 13px; color: #4F6462">CPF •••.482.317-•• · 34 anos</span>
+        <span style="display: flex; gap: 6px; margin-top: 4px"><span style="font-size: 12px; font-weight: 600; padding: 3px 8px; border-radius: 6px; background: #E3F3F0; color: #0B5F56">Ortopédica</span><span style="font-size: 12px; font-weight: 600; padding: 3px 8px; border-radius: 6px; background: #E3EEF9; color: #1B5B8F">Sessão 8 de 12</span></span>
+      </div>
+    </div>
+    <div style="display: flex; gap: 10px">
+      <button type="button" class="primary" style="flex: 1; height: 48px; border: 0; border-radius: 12px; background: #0B7A6F; color: #FFFFFF; font: inherit; font-weight: 700; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>Nova sessão</button>
+      <button type="button" class="pdf" style="flex: 1; height: 48px; border: 1.5px solid #0B7A6F; border-radius: 12px; background: #FFFFFF; color: #0B5F56; font: inherit; font-weight: 700; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0B7A6F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><path d="M14 3v6h6"></path><path d="M12 12v6"></path><path d="M9 15l3 3 3-3"></path></svg>Exportar PDF</button>
+    </div>
+  </section>
+
+  <nav aria-label="Seções da ficha" style="display: flex; gap: 6px; overflow-x: auto; padding: 16px 20px 4px">
+    <sc-for list="{{tabs}}" as="t" hint-placeholder-count="5">
+      <button type="button" class="tab" onClick="{{t.pick}}" aria-pressed="{{t.pressed}}" style="{{t.style}}">{{t.label}}</button>
+    </sc-for>
+  </nav>
+
+  <div style="padding: 12px 20px 28px; display: flex; flex-direction: column; gap: 12px">
+    <sc-if value="{{isAnamnese}}" hint-placeholder-val="{{true}}">
+      <section style="background: #FFFFFF; border-radius: 20px; padding: 18px; box-shadow: 0 1px 3px rgba(15,46,44,.06); display: flex; flex-direction: column; gap: 16px">
+        <div style="display: flex; justify-content: space-between; align-items: center"><h2 style="margin: 0; font-size: 17px; font-weight: 700">Anamnese ortopédica</h2><span style="font-size: 13px; color: #4F6462">10/09/2026</span></div>
+        <div style="display: flex; flex-direction: column; gap: 4px"><div style="font-size: 12px; font-weight: 700; color: #4F6462; text-transform: uppercase; letter-spacing: .04em">Queixa principal</div><div style="font-size: 15px; line-height: 1.5">Dor e instabilidade no joelho direito após entorse jogando futebol.</div></div>
+        <div style="display: flex; flex-direction: column; gap: 4px"><div style="font-size: 12px; font-weight: 700; color: #4F6462; text-transform: uppercase; letter-spacing: .04em">Diagnóstico clínico</div><div style="font-size: 15px; line-height: 1.5">Reconstrução de LCA (pós-operatório, 6 semanas).</div></div>
+        <div style="display: flex; flex-direction: column; gap: 8px">
+          <div style="font-size: 12px; font-weight: 700; color: #4F6462; text-transform: uppercase; letter-spacing: .04em">Dor inicial (EVA)</div>
+          <div style="display: flex; gap: 3px">
+            <span style="flex: 1; height: 10px; border-radius: 3px; background: #0B7A6F"></span><span style="flex: 1; height: 10px; border-radius: 3px; background: #0B7A6F"></span><span style="flex: 1; height: 10px; border-radius: 3px; background: #0B7A6F"></span><span style="flex: 1; height: 10px; border-radius: 3px; background: #0B7A6F"></span><span style="flex: 1; height: 10px; border-radius: 3px; background: #0B7A6F"></span><span style="flex: 1; height: 10px; border-radius: 3px; background: #0B7A6F"></span><span style="flex: 1; height: 10px; border-radius: 3px; background: #0B7A6F"></span><span style="flex: 1; height: 10px; border-radius: 3px; background: #DDE9E7"></span><span style="flex: 1; height: 10px; border-radius: 3px; background: #DDE9E7"></span><span style="flex: 1; height: 10px; border-radius: 3px; background: #DDE9E7"></span>
+          </div>
+          <div style="font-size: 14px; font-weight: 600">7 de 10</div>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+          <div style="background: #F2F8F7; border-radius: 12px; padding: 12px"><div style="font-size: 12px; color: #4F6462; font-weight: 600">Medicamentos</div><div style="font-size: 14px; margin-top: 2px">Anti-inflamatório</div></div>
+          <div style="background: #F2F8F7; border-radius: 12px; padding: 12px"><div style="font-size: 12px; color: #4F6462; font-weight: 600">Atividade física</div><div style="font-size: 14px; margin-top: 2px">Futebol, 2×/semana</div></div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 4px"><div style="font-size: 12px; font-weight: 700; color: #4F6462; text-transform: uppercase; letter-spacing: .04em">Objetivos</div><div style="font-size: 15px; line-height: 1.5">Recuperar amplitude total e voltar ao esporte em 6 meses.</div></div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{isEvolucao}}" hint-placeholder-val="{{false}}">
+      <section style="background: #FFFFFF; border-radius: 20px; padding: 18px; box-shadow: 0 1px 3px rgba(15,46,44,.06); display: flex; flex-direction: column; gap: 14px">
+        <div style="display: flex; justify-content: space-between; align-items: center"><h2 style="margin: 0; font-size: 17px; font-weight: 700">Ficha de evolução</h2><button type="button" class="tap" style="height: 40px; padding: 0 12px; border: 0; border-radius: 10px; background: transparent; color: #0B7A6F; font: inherit; font-weight: 700; font-size: 14px; cursor: pointer">+ Registrar</button></div>
+        <div style="display: flex; flex-direction: column; gap: 6px">
+          <div style="font-size: 13px; color: #4F6462; font-weight: 600">Dor (EVA) ao longo das sessões</div>
+          <div style="display: flex; align-items: flex-end; gap: 8px; height: 90px; padding: 8px 4px 0; border-bottom: 1.5px solid #DDE9E7">
+            <sc-for list="{{eva}}" as="e" hint-placeholder-count="8">
+              <span style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; justify-content: flex-end; height: 100%"><span style="font-size: 11px; font-weight: 700; color: #2C4542">{{e.v}}</span><span style="{{e.bar}}"></span></span>
+            </sc-for>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 12px; color: #4F6462"><span>Sessão 1</span><span>Sessão 8</span></div>
+        </div>
+        <sc-for list="{{evolucao}}" as="ev" hint-placeholder-count="3">
+          <div style="display: flex; gap: 12px">
+            <div style="display: flex; flex-direction: column; align-items: center"><span style="width: 12px; height: 12px; border-radius: 50%; background: #0B7A6F; margin-top: 4px"></span><span style="flex: 1; width: 2px; background: #DDE9E7"></span></div>
+            <div style="flex: 1; padding-bottom: 12px; display: flex; flex-direction: column; gap: 4px">
+              <div style="display: flex; justify-content: space-between; font-size: 13px"><strong>{{ev.date}}</strong><span style="color: #4F6462">EVA {{ev.eva}}</span></div>
+              <div style="font-size: 14px; line-height: 1.5; color: #2C4542">{{ev.text}}</div>
+            </div>
+          </div>
+        </sc-for>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{isSessoes}}" hint-placeholder-val="{{false}}">
+      <div style="display: flex; justify-content: space-between; align-items: center"><h2 style="margin: 0; font-size: 17px; font-weight: 700">Registro de sessões</h2><span style="font-size: 13px; color: #4F6462">8 realizadas</span></div>
+      <sc-for list="{{sessoes}}" as="s" hint-placeholder-count="4">
+        <article style="background: #FFFFFF; border-radius: 16px; padding: 14px 16px; box-shadow: 0 1px 3px rgba(15,46,44,.06); display: flex; flex-direction: column; gap: 8px">
+          <div style="display: flex; justify-content: space-between; align-items: center"><span style="font-weight: 700; font-size: 15px">Sessão {{s.n}}</span><span style="font-size: 13px; color: #4F6462">{{s.date}} · {{s.dur}}</span></div>
+          <div style="font-size: 14px; line-height: 1.5; color: #2C4542">{{s.text}}</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap"><sc-for list="{{s.tags}}" as="tg"><span style="font-size: 12px; font-weight: 600; padding: 3px 8px; border-radius: 6px; background: #F2F8F7; color: #2C4542">{{tg}}</span></sc-for></div>
+        </article>
+      </sc-for>
+    </sc-if>
+
+    <sc-if value="{{isMidia}}" hint-placeholder-val="{{false}}">
+      <div style="display: flex; justify-content: space-between; align-items: center"><h2 style="margin: 0; font-size: 17px; font-weight: 700">Vídeos e imagens</h2><span style="font-size: 13px; color: #4F6462">6 arquivos</span></div>
+      <button type="button" class="primary" style="height: 52px; border: 0; border-radius: 14px; background: #0B7A6F; color: #FFFFFF; font: inherit; font-weight: 700; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8a2 2 0 0 1 2-2h2l2-2h6l2 2h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>
+        Gravar ou enviar do celular
+      </button>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+        <sc-for list="{{midia}}" as="m" hint-placeholder-count="6">
+          <button type="button" class="media" aria-label="{{m.aria}}" style="padding: 0; border: 0; font: inherit; text-align: left; background: #FFFFFF; border-radius: 14px; overflow: hidden; box-shadow: 0 1px 3px rgba(15,46,44,.08); display: flex; flex-direction: column">
+            <span style="height: 108px; background: #D9E9E6; display: flex; align-items: center; justify-content: center; position: relative">
+              <sc-if value="{{m.video}}" hint-placeholder-val="{{true}}">
+                <span style="width: 40px; height: 40px; border-radius: 50%; background: rgba(15,46,44,.6); display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg></span>
+                <span style="position: absolute; right: 8px; bottom: 8px; font-size: 11px; font-weight: 700; color: #FFFFFF; background: rgba(15,46,44,.7); padding: 2px 6px; border-radius: 5px">{{m.dur}}</span>
+              </sc-if>
+              <sc-if value="{{m.foto}}" hint-placeholder-val="{{false}}">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#4F6462" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"></rect><circle cx="9" cy="10" r="2"></circle><path d="M21 16l-5-5-9 9"></path></svg>
+              </sc-if>
+            </span>
+            <span style="padding: 8px 10px 10px; display: flex; flex-direction: column"><span style="font-size: 13px; font-weight: 600; color: #0F2E2C">{{m.title}}</span><span style="font-size: 12px; color: #4F6462">{{m.date}}</span></span>
+          </button>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{isComentarios}}" hint-placeholder-val="{{false}}">
+      <h2 style="margin: 0; font-size: 17px; font-weight: 700">Comentários</h2>
+      <label class="field" style="display: flex; flex-direction: column; gap: 10px; padding: 12px 14px; background: #FFFFFF; border: 1.5px solid #CFDFDC; border-radius: 14px">
+        <span style="font-size: 13px; font-weight: 600; color: #4F6462">Novo comentário</span>
+        <textarea rows="3" placeholder="Escreva uma observação sobre o paciente" style="font-size: 15px"></textarea>
+        <span style="display: flex; justify-content: flex-end"><span class="primary" style="height: 40px; padding: 0 16px; border-radius: 10px; background: #0B7A6F; color: #FFFFFF; font-weight: 700; font-size: 14px; display: flex; align-items: center">Adicionar</span></span>
+      </label>
+      <sc-for list="{{comentarios}}" as="c" hint-placeholder-count="3">
+        <article style="background: #FFFFFF; border-radius: 16px; padding: 14px 16px; box-shadow: 0 1px 3px rgba(15,46,44,.06); display: flex; flex-direction: column; gap: 6px">
+          <div style="font-size: 13px; color: #4F6462; font-weight: 600">{{c.date}}</div>
+          <div style="font-size: 15px; line-height: 1.5">{{c.text}}</div>
+        </article>
+      </sc-for>
+    </sc-if>
+  </div>
+</div>
+</template>
+<template id="tpl-Componentes"><style>
+body{margin:0}
+a{color:#0B7A6F}a:hover{color:#075A52}
+input{font:inherit;color:inherit;border:0;outline:0;background:transparent;width:100%}
+</style>
+
+<div style="width: 1240px; height: 1000px; box-sizing: border-box; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; color: #0F2E2C; background: #FFFFFF; padding: 48px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px 56px; align-content: start">
+
+  <section style="display: flex; flex-direction: column; gap: 16px">
+    <h2 style="margin: 0; font-size: 13px; font-weight: 700; color: #4F6462; text-transform: uppercase; letter-spacing: .06em">Cores</h2>
+    <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px">
+      <div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 72px; border-radius: 14px; background: #0B7A6F"></span><strong style="font-size: 13px">Verde-água</strong><span style="font-size: 12px; color: #4F6462">#0B7A6F · ações</span></div>
+      <div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 72px; border-radius: 14px; background: #E3F3F0"></span><strong style="font-size: 13px">Água claro</strong><span style="font-size: 12px; color: #4F6462">#E3F3F0 · destaques</span></div>
+      <div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 72px; border-radius: 14px; background: #2E86C1"></span><strong style="font-size: 13px">Azul</strong><span style="font-size: 12px; color: #4F6462">#2E86C1 · dados</span></div>
+      <div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 72px; border-radius: 14px; background: #E3EEF9"></span><strong style="font-size: 13px">Azul claro</strong><span style="font-size: 12px; color: #4F6462">#E3EEF9 · etiquetas</span></div>
+      <div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 72px; border-radius: 14px; background: #0F2E2C"></span><strong style="font-size: 13px">Tinta</strong><span style="font-size: 12px; color: #4F6462">#0F2E2C · texto</span></div>
+      <div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 72px; border-radius: 14px; background: #4F6462"></span><strong style="font-size: 13px">Cinza</strong><span style="font-size: 12px; color: #4F6462">#4F6462 · apoio</span></div>
+      <div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 72px; border-radius: 14px; background: #F2F8F7; border: 1px solid #DDE9E7"></span><strong style="font-size: 13px">Fundo</strong><span style="font-size: 12px; color: #4F6462">#F2F8F7</span></div>
+      <div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 72px; border-radius: 14px; background: #B3261E"></span><strong style="font-size: 13px">Alerta</strong><span style="font-size: 12px; color: #4F6462">#B3261E · sair, erro</span></div>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: 14px">
+    <h2 style="margin: 0; font-size: 13px; font-weight: 700; color: #4F6462; text-transform: uppercase; letter-spacing: .06em">Tipografia · Plus Jakarta Sans</h2>
+    <div style="display: flex; align-items: baseline; gap: 20px"><span style="width: 120px; font-size: 12px; color: #4F6462">Título 28/800</span><span style="font-size: 28px; font-weight: 800">Olá, Dra. Ana</span></div>
+    <div style="display: flex; align-items: baseline; gap: 20px"><span style="width: 120px; font-size: 12px; color: #4F6462">Seção 20/800</span><span style="font-size: 20px; font-weight: 800">Ficha do paciente</span></div>
+    <div style="display: flex; align-items: baseline; gap: 20px"><span style="width: 120px; font-size: 12px; color: #4F6462">Cartão 17/700</span><span style="font-size: 17px; font-weight: 700">Próximas sessões</span></div>
+    <div style="display: flex; align-items: baseline; gap: 20px"><span style="width: 120px; font-size: 12px; color: #4F6462">Texto 15–16/400</span><span style="font-size: 16px">Dor no joelho ao subir escadas.</span></div>
+    <div style="display: flex; align-items: baseline; gap: 20px"><span style="width: 120px; font-size: 12px; color: #4F6462">Rótulo 13/600</span><span style="font-size: 13px; font-weight: 600; color: #4F6462">Última sessão: 25/10</span></div>
+    <div style="font-size: 13px; color: #4F6462; line-height: 1.5; margin-top: 4px">Texto mínimo de 16px nos campos (evita zoom no Android). Áreas de toque com no mínimo 44px.</div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: 16px">
+    <h2 style="margin: 0; font-size: 13px; font-weight: 700; color: #4F6462; text-transform: uppercase; letter-spacing: .06em">Botões · estados</h2>
+    <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; align-items: end">
+      <span style="font-size: 12px; color: #4F6462; font-weight: 600">Padrão</span><span style="font-size: 12px; color: #4F6462; font-weight: 600">Hover</span><span style="font-size: 12px; color: #4F6462; font-weight: 600">Pressionado</span><span style="font-size: 12px; color: #4F6462; font-weight: 600">Desabilitado</span>
+      <button type="button" style="height: 50px; border: 0; border-radius: 14px; background: #0B7A6F; color: #FFFFFF; font: inherit; font-weight: 700; font-size: 15px; box-shadow: 0 4px 12px rgba(11,122,111,.25)">Salvar</button>
+      <button type="button" style="height: 50px; border: 0; border-radius: 14px; background: #086A60; color: #FFFFFF; font: inherit; font-weight: 700; font-size: 15px; box-shadow: 0 6px 16px rgba(11,122,111,.32)">Salvar</button>
+      <button type="button" style="height: 50px; border: 0; border-radius: 14px; background: #075A52; color: #FFFFFF; font: inherit; font-weight: 700; font-size: 15px; transform: translateY(1px); box-shadow: inset 0 2px 4px rgba(0,0,0,.18)">Salvar</button>
+      <button type="button" disabled="" style="height: 50px; border: 0; border-radius: 14px; background: #DCE5E3; color: #6B7C7A; font: inherit; font-weight: 700; font-size: 15px">Salvar</button>
+      <button type="button" style="height: 50px; border: 1.5px solid #0B7A6F; border-radius: 14px; background: #FFFFFF; color: #0B5F56; font: inherit; font-weight: 700; font-size: 15px">Exportar PDF</button>
+      <button type="button" style="height: 50px; border: 1.5px solid #0B7A6F; border-radius: 14px; background: #E6F4F2; color: #0B5F56; font: inherit; font-weight: 700; font-size: 15px">Exportar PDF</button>
+      <button type="button" style="height: 50px; border: 1.5px solid #075A52; border-radius: 14px; background: #D3ECE8; color: #075A52; font: inherit; font-weight: 700; font-size: 15px">Exportar PDF</button>
+      <button type="button" disabled="" style="height: 50px; border: 1.5px solid #CFDFDC; border-radius: 14px; background: #FFFFFF; color: #6B7C7A; font: inherit; font-weight: 700; font-size: 15px">Exportar PDF</button>
+      <button type="button" style="height: 50px; border: 1.5px solid #F2D4D0; border-radius: 14px; background: #FFFFFF; color: #B3261E; font: inherit; font-weight: 700; font-size: 15px">Sair</button>
+      <button type="button" style="height: 50px; border: 1.5px solid #F2D4D0; border-radius: 14px; background: #FDEEEC; color: #B3261E; font: inherit; font-weight: 700; font-size: 15px">Sair</button>
+      <button type="button" style="height: 50px; border: 1.5px solid #E7B8B2; border-radius: 14px; background: #F9DEDA; color: #8C1D17; font: inherit; font-weight: 700; font-size: 15px">Sair</button>
+      <button type="button" disabled="" style="height: 50px; border: 1.5px solid #E3E8E7; border-radius: 14px; background: #FFFFFF; color: #6B7C7A; font: inherit; font-weight: 700; font-size: 15px">Sair</button>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: 16px">
+    <h2 style="margin: 0; font-size: 13px; font-weight: 700; color: #4F6462; text-transform: uppercase; letter-spacing: .06em">Campos · estados</h2>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px">
+      <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Padrão
+        <span style="display: flex; align-items: center; height: 50px; padding: 0 14px; border: 1.5px solid #CFDFDC; border-radius: 12px; font-size: 16px; font-weight: 400"><input type="text" placeholder="Nome completo"></span></label>
+      <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Em foco
+        <span style="display: flex; align-items: center; height: 50px; padding: 0 14px; border: 1.5px solid #0B7A6F; border-radius: 12px; font-size: 16px; font-weight: 400; box-shadow: 0 0 0 3px rgba(11,122,111,.15)"><input type="text" value="Marcos Oliveira"></span></label>
+      <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Com erro
+        <span style="display: flex; align-items: center; height: 50px; padding: 0 14px; border: 1.5px solid #B3261E; border-radius: 12px; font-size: 16px; font-weight: 400; background: #FFF8F7"><input type="text" value="123.456.789"></span>
+        <span style="font-size: 13px; font-weight: 500; color: #B3261E">CPF incompleto</span></label>
+      <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600; color: #6B7C7A">Desabilitado
+        <span style="display: flex; align-items: center; height: 50px; padding: 0 14px; border: 1.5px solid #E3E8E7; border-radius: 12px; font-size: 16px; font-weight: 400; background: #F4F6F6"><input type="text" disabled="" value="São Paulo"></span></label>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: 16px">
+    <h2 style="margin: 0; font-size: 13px; font-weight: 700; color: #4F6462; text-transform: uppercase; letter-spacing: .06em">Segurança e LGPD</h2>
+    <div style="display: flex; flex-wrap: wrap; gap: 12px">
+      <span style="display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: #E3F3F0; border-radius: 12px; font-size: 13px; color: #0F4A44">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0B7A6F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6l8-3z"></path><path d="M8.5 12l2.5 2.5 4.5-5"></path></svg>
+        <span><strong>Dados protegidos</strong> · Conformidade com a LGPD</span></span>
+      <span style="display: flex; align-items: center; gap: 8px; padding: 8px 12px; border: 1.5px solid #CDE6E2; border-radius: 20px; font-size: 13px; font-weight: 600; color: #0B5F56">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0B7A6F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>
+        Conexão criptografada</span>
+      <span style="display: flex; align-items: center; gap: 8px; padding: 8px 12px; border: 1.5px solid #CDE6E2; border-radius: 20px; font-size: 13px; font-weight: 600; color: #0B5F56">CPF mascarado · •••.482.317-••</span>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: 16px">
+    <h2 style="margin: 0; font-size: 13px; font-weight: 700; color: #4F6462; text-transform: uppercase; letter-spacing: .06em">Etiquetas e abas</h2>
+    <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center">
+      <span style="height: 42px; padding: 0 16px; border-radius: 21px; background: #0B7A6F; color: #FFFFFF; font-size: 14px; font-weight: 700; display: flex; align-items: center">Aba ativa</span>
+      <span style="height: 42px; padding: 0 16px; border-radius: 21px; border: 1.5px solid #CFDFDC; color: #2C4542; font-size: 14px; font-weight: 700; display: flex; align-items: center">Aba inativa</span>
+      <span style="font-size: 12px; font-weight: 600; padding: 3px 8px; border-radius: 6px; background: #E3F3F0; color: #0B5F56">Ortopédica</span>
+      <span style="font-size: 12px; font-weight: 600; padding: 3px 8px; border-radius: 6px; background: #E3EEF9; color: #1B5B8F">Sessão 8 de 12</span>
+    </div>
+    <div style="font-size: 13px; color: #4F6462; line-height: 1.5">Cartões: raio 16–22px, sombra 0 1px 3px rgba(15,46,44,.06); em hover a sombra cresce para 0 10px 28px.</div>
+  </section>
+</div>
+</template>
+<script>
+const SCREENS = [{"id": "Main", "title": "01 · Login", "w": 390, "h": 844, "fluid": false, "radius": 28, "props": {}, "code": "\nclass Component extends DCLogic {\n  renderVals() { return {}; }\n}\n"}, {"id": "CriarConta", "title": "02 · Criar conta (assinatura)", "w": 390, "h": 1040, "fluid": false, "radius": 28, "props": {}, "code": "\nclass Component extends DCLogic {\n  constructor(p) { super(p); this.state = { plan: 'mensal' }; }\n  renderVals() {\n    const list = [\n      { id: 'mensal', name: 'Mensal', sub: 'Pague mês a mês', price: 'R$ [VALOR]', period: '/mês' },\n      { id: 'anual', name: 'Anual', sub: '12 meses com desconto', price: 'R$ [VALOR]', period: '/ano' }\n    ];\n    return {\n      plans: list.map((p) => {\n        const on = this.state.plan === p.id;\n        return {\n          ...p,\n          selected: on ? 'true' : 'false',\n          pick: () => this.setState({ plan: p.id }),\n          cardStyle: 'width: 100%; font: inherit; text-align: left; display: flex; flex-direction: column; gap: 10px; padding: 16px; border-radius: 16px; background: ' + (on ? '#F0FAF8' : '#FFFFFF') + '; border: 2px solid ' + (on ? '#0B7A6F' : '#DDE9E7') + '; box-shadow: ' + (on ? '0 4px 14px rgba(11,122,111,.15)' : '0 1px 2px rgba(15,46,44,.05)'),\n          radioStyle: 'width: 22px; height: 22px; flex: none; border-radius: 50%; box-sizing: border-box; border: 2px solid ' + (on ? '#0B7A6F' : '#9FB3B0') + '; display: flex; align-items: center; justify-content: center',\n          dotStyle: 'width: 10px; height: 10px; border-radius: 50%; background: ' + (on ? '#0B7A6F' : 'transparent')\n        };\n      })\n    };\n  }\n}\n"}, {"id": "Dashboard", "title": "03 · Início (mobile)", "w": 390, "h": 844, "fluid": false, "radius": 28, "props": {}, "code": "\nclass Component extends DCLogic {\n  renderVals() {\n    return {\n      sessions: [\n        { time: '14:00', name: 'Marcos Oliveira Santos', info: 'Sessão 8 de 12 · Joelho (LCA)' },\n        { time: '15:00', name: 'Helena Ribeiro Costa', info: 'Sessão 3 de 10 · Lombalgia' },\n        { time: '16:30', name: 'João Pedro Almeida', info: 'Avaliação inicial' }\n      ]\n    };\n  }\n}\n"}, {"id": "MenuAberto", "title": "04 · Menu hambúrguer aberto", "w": 390, "h": 844, "fluid": false, "radius": 28, "props": {}, "code": "\nclass Component extends DCLogic {\n  renderVals() { return {}; }\n}\n"}, {"id": "DashboardDesktop", "title": "05 · Início (desktop)", "w": 1280, "h": 860, "fluid": true, "radius": 0, "props": {}, "code": "\nclass Component extends DCLogic {\n  renderVals() {\n    return {\n      sessions: [\n        { time: '14:00', name: 'Marcos Oliveira Santos', info: 'Sessão 8 de 12 · Joelho (LCA)' },\n        { time: '15:00', name: 'Helena Ribeiro Costa', info: 'Sessão 3 de 10 · Lombalgia' },\n        { time: '16:30', name: 'João Pedro Almeida', info: 'Avaliação inicial' },\n        { time: '17:30', name: 'Beatriz Nunes Ferreira', info: 'Sessão 5 de 8 · Ombro' }\n      ],\n      recent: [\n        { ini: 'MO', name: 'Marcos Oliveira Santos', info: 'Evolução registrada', when: 'Hoje' },\n        { ini: 'CS', name: 'Cláudia Souza Melo', info: '2 vídeos adicionados', when: 'Ontem' },\n        { ini: 'RT', name: 'Rafael Torres Lima', info: 'Anamnese ortopédica', when: '26/10' },\n        { ini: 'HR', name: 'Helena Ribeiro Costa', info: 'Comentário adicionado', when: '25/10' }\n      ]\n    };\n  }\n}\n"}, {"id": "Pacientes", "title": "06 · Consultar paciente", "w": 390, "h": 844, "fluid": false, "radius": 28, "props": {}, "code": "\nclass Component extends DCLogic {\n  constructor(p) { super(p); this.state = { q: '', f: 'Todos' }; }\n  renderVals() {\n    const all = [\n      { ini: 'MO', name: 'Marcos Oliveira Santos', cpf: '•••.482.317-••', tipo: 'Ortopédica', last: 'hoje' },\n      { ini: 'HR', name: 'Helena Ribeiro Costa', cpf: '•••.901.226-••', tipo: 'Ortopédica', last: '25/10' },\n      { ini: 'CS', name: 'Cláudia Souza Melo', cpf: '•••.330.874-••', tipo: 'Neurológica', last: '27/10' },\n      { ini: 'RT', name: 'Rafael Torres Lima', cpf: '•••.115.602-••', tipo: 'Esportiva', last: '26/10' },\n      { ini: 'BN', name: 'Beatriz Nunes Ferreira', cpf: '•••.748.519-••', tipo: 'Ortopédica', last: '24/10' },\n      { ini: 'JA', name: 'João Pedro Almeida', cpf: '•••.263.087-••', tipo: 'Respiratória', last: '—' },\n      { ini: 'LM', name: 'Lúcia Martins Rocha', cpf: '•••.659.140-••', tipo: 'Geriátrica', last: '22/10' }\n    ];\n    const q = this.state.q.trim().toLowerCase();\n    const rows = all.filter((p) => (this.state.f === 'Todos' || p.tipo === this.state.f) && (!q || p.name.toLowerCase().includes(q) || p.cpf.includes(q)));\n    const chips = ['Todos', 'Ortopédica', 'Neurológica', 'Esportiva', 'Respiratória'].map((label) => {\n      const on = this.state.f === label;\n      return {\n        label, pressed: on ? 'true' : 'false',\n        pick: () => this.setState({ f: label }),\n        style: 'flex: none; height: 40px; padding: 0 16px; border-radius: 20px; font: inherit; font-size: 14px; font-weight: 600; border: 1.5px solid ' + (on ? '#0B7A6F' : '#CFDFDC') + '; background: ' + (on ? '#0B7A6F' : '#FFFFFF') + '; color: ' + (on ? '#FFFFFF' : '#2C4542')\n      };\n    });\n    return { query: this.state.q, onQuery: (e) => this.setState({ q: e.target.value }), chips, rows, empty: rows.length === 0 };\n  }\n}\n"}, {"id": "CadastroPaciente", "title": "07 · Cadastrar paciente", "w": 390, "h": 1300, "fluid": false, "radius": 28, "props": {}, "code": "\nclass Component extends DCLogic {\n  constructor(p) { super(p); this.state = { nome: '', cpf: '', tipo: 'Ortopédica', saved: false }; }\n  renderVals() {\n    const s = this.state;\n    const disabled = !(s.nome.trim() && s.cpf.trim());\n    const tipos = ['Ortopédica', 'Neurológica', 'Esportiva', 'Respiratória', 'Geriátrica', 'Pediátrica', 'Outra'].map((label) => {\n      const on = s.tipo === label;\n      return {\n        label, pressed: on ? 'true' : 'false',\n        pick: () => this.setState({ tipo: label }),\n        style: 'height: 44px; padding: 0 16px; border-radius: 12px; font: inherit; font-size: 14px; font-weight: 600; border: 1.5px solid ' + (on ? '#0B7A6F' : '#CFDFDC') + '; background: ' + (on ? '#E3F3F0' : '#FFFFFF') + '; color: ' + (on ? '#0B5F56' : '#2C4542')\n      };\n    });\n    return {\n      nome: s.nome, cpf: s.cpf, tipos,\n      onNome: (e) => this.setState({ nome: e.target.value, saved: false }),\n      onCpf: (e) => this.setState({ cpf: e.target.value, saved: false }),\n      onSave: () => this.setState({ saved: true }),\n      saveDisabled: disabled,\n      saveLabel: s.saved ? 'Salvo' : 'Salvar paciente',\n      saveStyle: 'flex: 2; height: 54px; border: 0; border-radius: 14px; font: inherit; font-weight: 700; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; transition: background .15s; background: ' + (disabled ? '#DCE5E3' : '#0B7A6F') + '; color: ' + (disabled ? '#6B7C7A' : '#FFFFFF') + '; box-shadow: ' + (disabled ? 'none' : '0 4px 12px rgba(11,122,111,.25)')\n    };\n  }\n}\n"}, {"id": "FichaPaciente", "title": "08 · Ficha do paciente", "w": 390, "h": 1180, "fluid": false, "radius": 28, "props": {"abaInicial": "anamnese"}, "code": "\nclass Component extends DCLogic {\n  constructor(p) { super(p); this.state = { tab: null }; }\n  renderVals() {\n    const tab = this.state.tab || this.props.abaInicial || 'anamnese';\n    const defs = [['anamnese', 'Anamnese'], ['evolucao', 'Evolução'], ['sessoes', 'Sessões'], ['midia', 'Vídeos e imagens'], ['comentarios', 'Comentários']];\n    const tabs = defs.map(([id, label]) => {\n      const on = tab === id;\n      return {\n        label, pressed: on ? 'true' : 'false',\n        pick: () => this.setState({ tab: id }),\n        style: 'flex: none; height: 42px; padding: 0 16px; border-radius: 21px; font: inherit; font-size: 14px; font-weight: 700; border: 1.5px solid ' + (on ? '#0B7A6F' : '#CFDFDC') + '; background: ' + (on ? '#0B7A6F' : '#FFFFFF') + '; color: ' + (on ? '#FFFFFF' : '#2C4542')\n      };\n    });\n    const evaVals = [7, 7, 6, 6, 5, 4, 4, 3];\n    return {\n      tabs,\n      isAnamnese: tab === 'anamnese', isEvolucao: tab === 'evolucao', isSessoes: tab === 'sessoes', isMidia: tab === 'midia', isComentarios: tab === 'comentarios',\n      eva: evaVals.map((v) => ({ v, bar: 'width: 100%; border-radius: 4px 4px 0 0; background: #2E86C1; height: ' + (v * 6) + 'px' })),\n      evolucao: [\n        { date: '28/10/2026', eva: '3/10', text: 'Flexão 115°. Marcha sem muletas. Iniciado fortalecimento em cadeia fechada.' },\n        { date: '21/10/2026', eva: '4/10', text: 'Flexão 100°. Edema reduzido. Boa adesão aos exercícios domiciliares.' },\n        { date: '14/10/2026', eva: '5/10', text: 'Flexão 90°. Ainda com leve derrame articular.' }\n      ],\n      sessoes: [\n        { n: 8, date: '28/10', dur: '50 min', text: 'Fortalecimento de quadríceps, propriocepção em disco e bicicleta ergométrica 10 min.', tags: ['Cinesioterapia', 'Propriocepção'] },\n        { n: 7, date: '24/10', dur: '50 min', text: 'Mobilização patelar, ganho de ADM e crioterapia ao final.', tags: ['Terapia manual', 'Crioterapia'] },\n        { n: 6, date: '21/10', dur: '45 min', text: 'Exercícios isométricos e treino de marcha.', tags: ['Cinesioterapia'] },\n        { n: 5, date: '17/10', dur: '45 min', text: 'Eletroestimulação (FES) e alongamentos.', tags: ['Eletroterapia'] }\n      ],\n      midia: [\n        { video: true, foto: false, title: 'Agachamento', date: '28/10', dur: '0:42', aria: 'Vídeo: agachamento, 28/10' },\n        { video: true, foto: false, title: 'Marcha', date: '24/10', dur: '1:05', aria: 'Vídeo: marcha, 24/10' },\n        { video: false, foto: true, title: 'Flexão do joelho', date: '21/10', dur: '', aria: 'Foto: flexão do joelho, 21/10' },\n        { video: true, foto: false, title: 'Exercício em casa', date: '17/10', dur: '0:30', aria: 'Vídeo: exercício em casa, 17/10' },\n        { video: false, foto: true, title: 'Cicatriz', date: '14/10', dur: '', aria: 'Foto: cicatriz, 14/10' },\n        { video: false, foto: true, title: 'Edema', date: '10/10', dur: '', aria: 'Foto: edema, 10/10' }\n      ],\n      comentarios: [\n        { date: '28/10/2026', text: 'Paciente relatou dor leve ao subir escadas. Reforçar exercícios domiciliares.' },\n        { date: '14/10/2026', text: 'Retorno ao ortopedista marcado para novembro. Levar relatório em PDF.' }\n      ]\n    };\n  }\n}\n"}, {"id": "Componentes", "title": "09 · Componentes e estados", "w": 1240, "h": 1000, "fluid": false, "radius": 0, "props": {}, "code": "\nclass Component extends DCLogic {\n  renderVals() { return {}; }\n}\n"}];
+
+// Mini-runtime para o formato .dc.html: {{caminho}}, <sc-for>, <sc-if>, on* e estado.
+class DCLogic {
+  constructor(props) { this.props = props || {}; this.state = {}; }
+  setState(patch) { Object.assign(this.state, patch); this._render && this._render(); }
+  renderVals() { return {}; }
+}
+const HOLE = /\{\{\s*([\w.$]+)\s*\}\}/g;
+const ONLY = /^\{\{\s*([\w.$]+)\s*\}\}$/;
+const get = (scope, path) => path.split('.').reduce((o, k) => (o == null ? undefined : o[k]), scope);
+const fill = (str, scope) => str.replace(HOLE, (_, p) => { const v = get(scope, p); return v == null ? '' : String(v); });
+const value = (str, scope) => { const m = str.trim().match(ONLY); return m ? get(scope, m[1]) : str; };
+const truthy = (v) => v === true || (v !== false && v !== 'false' && v != null && v !== '' && v !== 0);
+const BOOL = ['disabled', 'checked', 'selected', 'hidden', 'readonly'];
+
+function proc(node, scope, go) {
+  for (const child of [...node.childNodes]) {
+    if (child.nodeType === 3) { if (child.data.includes('{{')) child.data = fill(child.data, scope); continue; }
+    if (child.nodeType !== 1) continue;
+    const tag = child.localName;
+    if (tag === 'sc-for') {
+      const list = value(child.getAttribute('list') || '', scope) || [];
+      const as = child.getAttribute('as') || 'item';
+      const frag = document.createDocumentFragment();
+      list.forEach((item, i) => {
+        const tmp = document.createElement('div');
+        for (const c of child.childNodes) tmp.appendChild(c.cloneNode(true));
+        proc(tmp, { ...scope, [as]: item, $index: i }, go);
+        frag.append(...tmp.childNodes);
+      });
+      child.replaceWith(frag);
+      continue;
+    }
+    if (tag === 'sc-if') {
+      if (truthy(value(child.getAttribute('value') || '', scope))) { proc(child, scope, go); child.replaceWith(...child.childNodes); }
+      else child.remove();
+      continue;
+    }
+    for (const attr of [...child.attributes]) {
+      const n = attr.name;
+      if (n.startsWith('on')) {
+        const fn = value(attr.value, scope);
+        child.removeAttribute(n);
+        if (typeof fn === 'function') {
+          const ev = n.slice(2) === 'change' && child.localName === 'input' ? 'input' : n.slice(2);
+          child.addEventListener(ev, fn);
+        }
+      } else if (BOOL.includes(n) && ONLY.test(attr.value.trim())) {
+        if (truthy(value(attr.value, scope))) child.setAttribute(n, ''); else child.removeAttribute(n);
+      } else if (attr.value.includes('{{')) {
+        child.setAttribute(n, fill(attr.value, scope));
+      }
+    }
+    if (child.localName === 'a') {
+      const href = child.getAttribute('href') || '';
+      const m = href.match(/^([\w-]+)\.dc\.html$/);
+      if (m) child.addEventListener('click', (e) => { e.preventDefault(); go(m[1]); });
+      else if (href === '#') child.addEventListener('click', (e) => e.preventDefault());
+    }
+    proc(child, scope, go);
+  }
+}
+
+function mount(screen, host, go) {
+  const root = host.attachShadow({ mode: 'open' });
+  const tpl = document.getElementById('tpl-' + screen.id);
+  const Component = new Function('DCLogic', screen.code + '\nreturn Component;')(DCLogic);
+  const comp = new Component({ ...screen.props });
+  comp._render = () => {
+    // preserva foco e cursor ao re-renderizar (ex.: busca de pacientes)
+    const inputs = [...root.querySelectorAll('input,textarea')];
+    const idx = inputs.indexOf(root.activeElement);
+    const sel = idx >= 0 ? root.activeElement.selectionStart : null;
+    const frag = tpl.content.cloneNode(true);
+    const wrap = document.createElement('div');
+    wrap.append(frag);
+    proc(wrap, comp.renderVals(), go);
+    root.replaceChildren(...wrap.childNodes);
+    if (idx >= 0) {
+      const el = root.querySelectorAll('input,textarea')[idx];
+      if (el) { el.focus(); try { el.setSelectionRange(sel, sel); } catch (_) {} }
+    }
+  };
+  comp._render();
+}
+
+const bar = document.getElementById('bar');
+const stage = document.getElementById('stage');
+
+function show(id) {
+  const list = id ? SCREENS.filter((s) => s.id === id) : SCREENS;
+  stage.replaceChildren();
+  for (const s of list) {
+    const frame = document.createElement('section');
+    frame.className = 'frame' + (s.fluid ? ' fluid' : '');
+    const h = document.createElement('h2');
+    h.textContent = s.title;
+    const host = document.createElement('div');
+    host.className = 'host';
+    host.style.width = s.fluid ? '100%' : s.w + 'px';
+    host.style.minHeight = s.h + 'px';
+    if (!s.fluid) host.style.height = s.h + 'px';
+    host.style.borderRadius = s.radius + 'px';
+    frame.append(h, host);
+    stage.append(frame);
+    mount(s, host, (target) => { location.hash = target; });
+  }
+  for (const a of bar.querySelectorAll('a')) {
+    if (a.dataset.id === (id || '')) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+  }
+  window.scrollTo(0, 0);
+}
+
+bar.innerHTML = '<strong>FisioGestão</strong>';
+for (const s of SCREENS) {
+  const a = document.createElement('a');
+  a.href = '#' + s.id; a.dataset.id = s.id; a.textContent = s.title;
+  bar.append(a);
+}
+const all = document.createElement('a');
+all.href = '#'; all.dataset.id = ''; all.className = 'all'; all.textContent = 'Ver todas as telas';
+bar.append(all);
+
+const route = () => { const id = location.hash.slice(1); show(SCREENS.some((s) => s.id === id) ? id : ''); };
+window.addEventListener('hashchange', route);
+route();
+</script>
+</body>
+</html>

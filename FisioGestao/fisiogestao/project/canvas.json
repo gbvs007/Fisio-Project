@@ -1,0 +1,140 @@
+{
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "CadastroPaciente.dc.html": {
+      "h": 1300,
+      "is_interactive": true,
+      "radius": 28,
+      "title": "07 · Cadastrar paciente",
+      "w": 390,
+      "x": 470,
+      "y": 2500
+    },
+    "Componentes.dc.html": {
+      "h": 1000,
+      "title": "09 · Componentes e estados",
+      "w": 1240,
+      "x": 0,
+      "y": 4100
+    },
+    "CriarConta.dc.html": {
+      "h": 1040,
+      "is_interactive": true,
+      "radius": 28,
+      "title": "02 · Criar conta (assinatura)",
+      "w": 390,
+      "x": 470,
+      "y": 0
+    },
+    "Dashboard.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 28,
+      "title": "03 · Início (mobile)",
+      "w": 390,
+      "x": 0,
+      "y": 1340
+    },
+    "DashboardDesktop.dc.html": {
+      "expand": "fill",
+      "h": 860,
+      "is_interactive": true,
+      "title": "05 · Início (desktop)",
+      "w": 1280,
+      "x": 940,
+      "y": 1340
+    },
+    "FichaPaciente.dc.html": {
+      "h": 1180,
+      "is_interactive": true,
+      "radius": 28,
+      "title": "08 · Ficha do paciente",
+      "w": 390,
+      "x": 940,
+      "y": 2500
+    },
+    "Main.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 28,
+      "title": "01 · Login",
+      "w": 390,
+      "x": 0,
+      "y": 0
+    },
+    "MenuAberto.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 28,
+      "title": "04 · Menu hambúrguer aberto",
+      "w": 390,
+      "x": 470,
+      "y": 1340
+    },
+    "Pacientes.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 28,
+      "title": "06 · Consultar paciente",
+      "w": 390,
+      "x": 0,
+      "y": 2500
+    }
+  },
+  "createdOnFiles": {
+    "at": "2026-10-28T12:00:00Z",
+    "v": 1
+  },
+  "designSystems": [],
+  "launch": {
+    "view": "canvas"
+  },
+  "notes": {
+    "t1": {
+      "kind": "title1",
+      "maxW": 860,
+      "text": "Acesso",
+      "w": 240,
+      "x": 0,
+      "y": -280
+    },
+    "t2": {
+      "kind": "title1",
+      "maxW": 2220,
+      "text": "Início e navegação",
+      "w": 240,
+      "x": 0,
+      "y": 1060
+    },
+    "t3": {
+      "kind": "title1",
+      "maxW": 1330,
+      "text": "Pacientes",
+      "w": 240,
+      "x": 0,
+      "y": 2220
+    },
+    "t4": {
+      "kind": "title1",
+      "maxW": 1240,
+      "text": "Sistema visual",
+      "w": 240,
+      "x": 0,
+      "y": 3820
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "CriarConta.dc.html",
+    "Dashboard.dc.html",
+    "MenuAberto.dc.html",
+    "DashboardDesktop.dc.html",
+    "Pacientes.dc.html",
+    "CadastroPaciente.dc.html",
+    "FichaPaciente.dc.html",
+    "Componentes.dc.html"
+  ],
+  "pages": [],
+  "title": "FisioGestão — Design do App"
+}

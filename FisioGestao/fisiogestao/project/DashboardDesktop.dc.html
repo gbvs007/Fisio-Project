@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Início desktop</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F2F8F7}
+a{color:#0B7A6F}a:hover{color:#075A52}
+.item{transition:background .15s}
+.item:hover{background:#EEF7F6 !important}
+.item-out:hover{background:#FDEEEC !important}
+.card-main{transition:box-shadow .15s, transform .08s}
+.card-main:hover{box-shadow:0 12px 30px rgba(15,46,44,.14) !important}
+.card-main:active{transform:scale(.99)}
+.row:hover{background:#F6FBFA !important}
+.search:focus-within{border-color:#0B7A6F !important;box-shadow:0 0 0 3px rgba(11,122,111,.15)}
+input{font:inherit;color:inherit;border:0;outline:0;background:transparent;width:100%}
+</style>
+</helmet>
+<div style="min-height: 860px; box-sizing: border-box; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; color: #0F2E2C; background: #F2F8F7; display: flex; flex-wrap: wrap">
+  <aside style="flex: 1 1 240px; max-width: 100%; box-sizing: border-box; background: #FFFFFF; border-right: 1px solid #DDE9E7; padding: 24px 16px; display: flex; flex-direction: column; gap: 24px">
+    <div style="display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 19px; padding: 0 8px">
+      <span style="width: 36px; height: 36px; border-radius: 11px; background: #0B7A6F; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="4.5" r="2"></circle><path d="M12 7v6l-3 7"></path><path d="M12 13l3 7"></path><path d="M7 10h10"></path></svg></span>
+      FisioGestão
+    </div>
+    <nav aria-label="Menu" style="display: flex; flex-direction: column; gap: 4px">
+      <a href="#" aria-current="page" class="item" style="display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 14px; border-radius: 12px; background: #DDF1EE; color: #0B5F56; text-decoration: none; font-weight: 700; font-size: 15px">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0B7A6F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"></path><path d="M5 10v10h14V10"></path></svg>Início</a>
+      <a href="Pacientes.dc.html" class="item" style="display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 14px; border-radius: 12px; color: #0F2E2C; text-decoration: none; font-weight: 600; font-size: 15px">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4F6462" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="4"></circle><path d="M2 21c0-3.9 3.1-7 7-7s7 3.1 7 7"></path><path d="M16 4.5a4 4 0 0 1 0 7"></path><path d="M19 14.5c1.8 1 3 3 3 6.5"></path></svg>Pacientes</a>
+      <a href="#" class="item" style="display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 14px; border-radius: 12px; color: #0F2E2C; text-decoration: none; font-weight: 600; font-size: 15px">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4F6462" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"></path></svg>Minha Conta</a>
+      <a href="Main.dc.html" class="item item-out" style="display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 14px; border-radius: 12px; color: #B3261E; text-decoration: none; font-weight: 600; font-size: 15px">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B3261E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><path d="M16 17l5-5-5-5"></path><path d="M21 12H9"></path></svg>Sair</a>
+    </nav>
+    <div style="margin-top: auto; display: flex; align-items: center; gap: 10px; padding: 12px; background: #E3F3F0; border-radius: 12px; font-size: 13px; color: #0F4A44">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0B7A6F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6l8-3z"></path><path d="M8.5 12l2.5 2.5 4.5-5"></path></svg>
+      <span><strong>Dados protegidos</strong><br>Em conformidade com a LGPD</span>
+    </div>
+  </aside>
+
+  <main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: 28px 32px 40px; display: flex; flex-direction: column; gap: 24px">
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px">
+      <div>
+        <div style="font-size: 14px; color: #4F6462">Terça-feira, 28 de outubro</div>
+        <h1 style="margin: 2px 0 0; font-size: 28px; font-weight: 800; letter-spacing: -0.01em">Olá, Dra. Ana</h1>
+      </div>
+      <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap">
+        <label class="search" style="display: flex; align-items: center; gap: 10px; width: 320px; max-width: 100%; height: 48px; box-sizing: border-box; padding: 0 14px; border: 1.5px solid #CFDFDC; border-radius: 12px; background: #FFFFFF; font-size: 15px">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4F6462" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+          <input type="search" aria-label="Buscar paciente" placeholder="Buscar paciente por nome ou CPF">
+        </label>
+        <span style="width: 44px; height: 44px; border-radius: 50%; background: #D6ECF8; color: #1B5B8F; display: flex; align-items: center; justify-content: center; font-weight: 700">AL</span>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px">
+      <a href="Pacientes.dc.html" class="card-main" style="display: flex; align-items: center; gap: 20px; padding: 28px; border-radius: 22px; background: #0B7A6F; color: #FFFFFF; text-decoration: none; box-shadow: 0 8px 22px rgba(11,122,111,.26)">
+        <span style="width: 64px; height: 64px; flex: none; border-radius: 18px; background: rgba(255,255,255,.18); display: flex; align-items: center; justify-content: center"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg></span>
+        <span style="display: flex; flex-direction: column; gap: 4px"><span style="font-size: 21px; font-weight: 700">Consultar Paciente</span><span style="font-size: 14px; color: #D3EFEB">Abrir ficha, evolução e sessões</span></span>
+      </a>
+      <a href="CadastroPaciente.dc.html" class="card-main" style="display: flex; align-items: center; gap: 20px; padding: 28px; border-radius: 22px; background: #FFFFFF; color: #0F2E2C; text-decoration: none; border: 1.5px solid #CDE6E2; box-shadow: 0 2px 8px rgba(15,46,44,.06)">
+        <span style="width: 64px; height: 64px; flex: none; border-radius: 18px; background: #E3F3F0; display: flex; align-items: center; justify-content: center"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#0B7A6F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="4"></circle><path d="M2 21c0-3.9 3.1-7 7-7s7 3.1 7 7"></path><path d="M19 8v6"></path><path d="M16 11h6"></path></svg></span>
+        <span style="display: flex; flex-direction: column; gap: 4px"><span style="font-size: 21px; font-weight: 700">Cadastrar Paciente</span><span style="font-size: 14px; color: #4F6462">Novo paciente com anamnese</span></span>
+      </a>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px">
+      <div style="background: #FFFFFF; border-radius: 18px; padding: 18px 20px; box-shadow: 0 1px 3px rgba(15,46,44,.06)"><div style="font-size: 13px; color: #4F6462; font-weight: 600">Pacientes ativos</div><div style="font-size: 30px; font-weight: 800; margin-top: 4px">48</div></div>
+      <div style="background: #FFFFFF; border-radius: 18px; padding: 18px 20px; box-shadow: 0 1px 3px rgba(15,46,44,.06)"><div style="font-size: 13px; color: #4F6462; font-weight: 600">Sessões hoje</div><div style="font-size: 30px; font-weight: 800; margin-top: 4px">5</div></div>
+      <div style="background: #FFFFFF; border-radius: 18px; padding: 18px 20px; box-shadow: 0 1px 3px rgba(15,46,44,.06)"><div style="font-size: 13px; color: #4F6462; font-weight: 600">Sessões na semana</div><div style="font-size: 30px; font-weight: 800; margin-top: 4px">23</div></div>
+      <div style="background: #FFFFFF; border-radius: 18px; padding: 18px 20px; box-shadow: 0 1px 3px rgba(15,46,44,.06)"><div style="font-size: 13px; color: #4F6462; font-weight: 600">Novos no mês</div><div style="font-size: 30px; font-weight: 800; margin-top: 4px">6</div></div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 20px">
+      <section style="background: #FFFFFF; border-radius: 20px; padding: 20px 12px 12px; box-shadow: 0 1px 3px rgba(15,46,44,.06)">
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 12px 10px"><h2 style="margin: 0; font-size: 17px; font-weight: 700">Próximas sessões</h2><a href="#" style="font-size: 14px; font-weight: 600; text-decoration: none">Ver todas</a></div>
+        <sc-for list="{{sessions}}" as="s" hint-placeholder-count="4">
+          <a href="FichaPaciente.dc.html" class="row" style="display: flex; align-items: center; gap: 14px; padding: 12px; border-radius: 14px; text-decoration: none; color: #0F2E2C">
+            <span style="width: 60px; flex: none; text-align: center; padding: 6px 0; border-radius: 10px; background: #E3F3F0; color: #0B5F56; font-weight: 700; font-size: 15px">{{s.time}}</span>
+            <span style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-weight: 600; font-size: 15px">{{s.name}}</span><span style="font-size: 13px; color: #4F6462">{{s.info}}</span></span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7A8F8C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+          </a>
+        </sc-for>
+      </section>
+      <section style="background: #FFFFFF; border-radius: 20px; padding: 20px 12px 12px; box-shadow: 0 1px 3px rgba(15,46,44,.06)">
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 12px 10px"><h2 style="margin: 0; font-size: 17px; font-weight: 700">Atualizados recentemente</h2><a href="Pacientes.dc.html" style="font-size: 14px; font-weight: 600; text-decoration: none">Ver pacientes</a></div>
+        <sc-for list="{{recent}}" as="r" hint-placeholder-count="4">
+          <a href="FichaPaciente.dc.html" class="row" style="display: flex; align-items: center; gap: 14px; padding: 12px; border-radius: 14px; text-decoration: none; color: #0F2E2C">
+            <span style="width: 40px; height: 40px; flex: none; border-radius: 50%; background: #E3EEF9; color: #1B5B8F; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px">{{r.ini}}</span>
+            <span style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-weight: 600; font-size: 15px">{{r.name}}</span><span style="font-size: 13px; color: #4F6462">{{r.info}}</span></span>
+            <span style="font-size: 13px; color: #4F6462">{{r.when}}</span>
+          </a>
+        </sc-for>
+      </section>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":860}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      sessions: [
+        { time: '14:00', name: 'Marcos Oliveira Santos', info: 'Sessão 8 de 12 · Joelho (LCA)' },
+        { time: '15:00', name: 'Helena Ribeiro Costa', info: 'Sessão 3 de 10 · Lombalgia' },
+        { time: '16:30', name: 'João Pedro Almeida', info: 'Avaliação inicial' },
+        { time: '17:30', name: 'Beatriz Nunes Ferreira', info: 'Sessão 5 de 8 · Ombro' }
+      ],
+      recent: [
+        { ini: 'MO', name: 'Marcos Oliveira Santos', info: 'Evolução registrada', when: 'Hoje' },
+        { ini: 'CS', name: 'Cláudia Souza Melo', info: '2 vídeos adicionados', when: 'Ontem' },
+        { ini: 'RT', name: 'Rafael Torres Lima', info: 'Anamnese ortopédica', when: '26/10' },
+        { ini: 'HR', name: 'Helena Ribeiro Costa', info: 'Comentário adicionado', when: '25/10' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

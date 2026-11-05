@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Início</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0B7A6F}a:hover{color:#075A52}
+.tap{transition:background .15s, box-shadow .15s, transform .08s}
+.tap:hover{background:#E6F4F2 !important}
+.card-main{transition:box-shadow .15s, transform .08s}
+.card-main:hover{box-shadow:0 10px 28px rgba(15,46,44,.14) !important}
+.card-main:active{transform:scale(.98)}
+.row:hover{background:#F6FBFA !important}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; color: #0F2E2C; background: #F2F8F7; display: flex; flex-direction: column; overflow: hidden">
+  <header style="display: flex; align-items: center; justify-content: space-between; padding: 12px 12px 8px 8px; background: #F2F8F7">
+    <a href="MenuAberto.dc.html" aria-label="Abrir menu" class="tap" style="width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0F2E2C" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16"></path><path d="M4 12h16"></path><path d="M4 17h16"></path></svg>
+    </a>
+    <div style="display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 17px">
+      <span style="width: 30px; height: 30px; border-radius: 9px; background: #0B7A6F; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="4.5" r="2"></circle><path d="M12 7v6l-3 7"></path><path d="M12 13l3 7"></path><path d="M7 10h10"></path></svg></span>
+      FisioGestão
+    </div>
+    <a href="#" aria-label="Minha conta" style="width: 40px; height: 40px; border-radius: 50%; background: #D6ECF8; color: #1B5B8F; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px; text-decoration: none">AL</a>
+  </header>
+
+  <main style="flex: 1; display: flex; flex-direction: column; gap: 18px; padding: 8px 20px 20px; overflow: hidden">
+    <div>
+      <div style="font-size: 14px; color: #4F6462">Terça-feira, 28 de outubro</div>
+      <h1 style="margin: 2px 0 0; font-size: 24px; font-weight: 800; letter-spacing: -0.01em">Olá, Dra. Ana</h1>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+      <a href="Pacientes.dc.html" class="card-main" style="min-height: 148px; box-sizing: border-box; padding: 18px 16px; border-radius: 20px; background: #0B7A6F; color: #FFFFFF; text-decoration: none; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 6px 18px rgba(11,122,111,.28)">
+        <span style="width: 48px; height: 48px; border-radius: 14px; background: rgba(255,255,255,.18); display: flex; align-items: center; justify-content: center">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+        </span>
+        <span style="font-size: 17px; font-weight: 700; line-height: 1.25">Consultar<br>Paciente</span>
+      </a>
+      <a href="CadastroPaciente.dc.html" class="card-main" style="min-height: 148px; box-sizing: border-box; padding: 18px 16px; border-radius: 20px; background: #FFFFFF; color: #0F2E2C; text-decoration: none; display: flex; flex-direction: column; justify-content: space-between; border: 1.5px solid #CDE6E2; box-shadow: 0 2px 8px rgba(15,46,44,.06)">
+        <span style="width: 48px; height: 48px; border-radius: 14px; background: #E3F3F0; display: flex; align-items: center; justify-content: center">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0B7A6F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="4"></circle><path d="M2 21c0-3.9 3.1-7 7-7s7 3.1 7 7"></path><path d="M19 8v6"></path><path d="M16 11h6"></path></svg>
+        </span>
+        <span style="font-size: 17px; font-weight: 700; line-height: 1.25">Cadastrar<br>Paciente</span>
+      </a>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px">
+      <div style="background: #FFFFFF; border-radius: 16px; padding: 14px 12px; box-shadow: 0 1px 3px rgba(15,46,44,.06)">
+        <div style="font-size: 24px; font-weight: 800">48</div>
+        <div style="font-size: 12px; color: #4F6462; font-weight: 500">Pacientes ativos</div>
+      </div>
+      <div style="background: #FFFFFF; border-radius: 16px; padding: 14px 12px; box-shadow: 0 1px 3px rgba(15,46,44,.06)">
+        <div style="font-size: 24px; font-weight: 800">5</div>
+        <div style="font-size: 12px; color: #4F6462; font-weight: 500">Sessões hoje</div>
+      </div>
+      <div style="background: #FFFFFF; border-radius: 16px; padding: 14px 12px; box-shadow: 0 1px 3px rgba(15,46,44,.06)">
+        <div style="font-size: 24px; font-weight: 800">23</div>
+        <div style="font-size: 12px; color: #4F6462; font-weight: 500">Sessões na semana</div>
+      </div>
+    </div>
+
+    <section style="background: #FFFFFF; border-radius: 20px; padding: 16px 8px 8px; box-shadow: 0 1px 3px rgba(15,46,44,.06); display: flex; flex-direction: column">
+      <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 10px 8px">
+        <h2 style="margin: 0; font-size: 16px; font-weight: 700">Próximas sessões</h2>
+        <a href="#" style="font-size: 14px; font-weight: 600; text-decoration: none; padding: 10px 4px">Ver todas</a>
+      </div>
+      <sc-for list="{{sessions}}" as="s" hint-placeholder-count="3">
+        <a href="FichaPaciente.dc.html" class="row" style="display: flex; align-items: center; gap: 12px; padding: 10px; border-radius: 14px; text-decoration: none; color: #0F2E2C">
+          <span style="width: 56px; flex: none; text-align: center; padding: 6px 0; border-radius: 10px; background: #E3F3F0; color: #0B5F56; font-weight: 700; font-size: 15px">{{s.time}}</span>
+          <span style="flex: 1; min-width: 0; display: flex; flex-direction: column">
+            <span style="font-weight: 600; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{s.name}}</span>
+            <span style="font-size: 13px; color: #4F6462">{{s.info}}</span>
+          </span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7A8F8C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+        </a>
+      </sc-for>
+    </section>
+  </main>
+
+  <nav aria-label="Navegação principal" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); background: #FFFFFF; border-top: 1px solid #DDE9E7; padding: 6px 8px 14px">
+    <a href="Dashboard.dc.html" aria-current="page" style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 6px 0; text-decoration: none; color: #0B7A6F; font-size: 12px; font-weight: 700">
+      <span style="width: 56px; height: 30px; border-radius: 15px; background: #DDF1EE; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0B7A6F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"></path><path d="M5 10v10h14V10"></path></svg></span>
+      Início
+    </a>
+    <a href="Pacientes.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 6px 0; text-decoration: none; color: #4F6462; font-size: 12px; font-weight: 600">
+      <span style="width: 56px; height: 30px; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4F6462" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="4"></circle><path d="M2 21c0-3.9 3.1-7 7-7s7 3.1 7 7"></path><path d="M16 4.5a4 4 0 0 1 0 7"></path><path d="M19 14.5c1.8 1 3 3 3 6.5"></path></svg></span>
+      Pacientes
+    </a>
+    <a href="#" style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 6px 0; text-decoration: none; color: #4F6462; font-size: 12px; font-weight: 600">
+      <span style="width: 56px; height: 30px; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4F6462" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"></path></svg></span>
+      Minha Conta
+    </a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      sessions: [
+        { time: '14:00', name: 'Marcos Oliveira Santos', info: 'Sessão 8 de 12 · Joelho (LCA)' },
+        { time: '15:00', name: 'Helena Ribeiro Costa', info: 'Sessão 3 de 10 · Lombalgia' },
+        { time: '16:30', name: 'João Pedro Almeida', info: 'Avaliação inicial' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

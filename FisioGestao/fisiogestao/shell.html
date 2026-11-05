@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title><!--TITLE--></title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#E4EEEC;font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#0F2E2C}
+  .bar{position:sticky;top:0;z-index:10;background:#FFFFFF;border-bottom:1px solid #CFDFDC;padding:10px 16px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .bar strong{margin-right:8px;font-size:16px}
+  .bar a{font-size:13px;font-weight:600;text-decoration:none;color:#2C4542;padding:8px 12px;border-radius:10px;background:#F2F8F7}
+  .bar a[aria-current="page"]{background:#0B7A6F;color:#FFFFFF}
+  .bar a.all{margin-left:auto;border:1.5px solid #0B7A6F;background:#FFFFFF;color:#0B7A6F}
+  .stage{padding:32px 16px;display:flex;flex-wrap:wrap;gap:48px 40px;justify-content:center;align-items:flex-start}
+  .frame{display:flex;flex-direction:column;gap:10px;max-width:100%}
+  .frame h2{margin:0;font-size:14px;font-weight:600;color:#4F6462}
+  .host{background:#FFFFFF;overflow:auto;box-shadow:0 10px 30px rgba(15,46,44,.15);max-width:100%}
+  .frame.fluid{width:100%}
+</style>
+</head>
+<body>
+<nav class="bar" id="bar"></nav>
+<main class="stage" id="stage"></main>
+<!--TEMPLATES-->
+<script>
+const SCREENS = /*SCREENS*/;
+
+// Mini-runtime para o formato .dc.html: {{caminho}}, <sc-for>, <sc-if>, on* e estado.
+class DCLogic {
+  constructor(props) { this.props = props || {}; this.state = {}; }
+  setState(patch) { Object.assign(this.state, patch); this._render && this._render(); }
+  renderVals() { return {}; }
+}
+const HOLE = /\{\{\s*([\w.$]+)\s*\}\}/g;
+const ONLY = /^\{\{\s*([\w.$]+)\s*\}\}$/;
+const get = (scope, path) => path.split('.').reduce((o, k) => (o == null ? undefined : o[k]), scope);
+const fill = (str, scope) => str.replace(HOLE, (_, p) => { const v = get(scope, p); return v == null ? '' : String(v); });
+const value = (str, scope) => { const m = str.trim().match(ONLY); return m ? get(scope, m[1]) : str; };
+const truthy = (v) => v === true || (v !== false && v !== 'false' && v != null && v !== '' && v !== 0);
+const BOOL = ['disabled', 'checked', 'selected', 'hidden', 'readonly'];
+
+function proc(node, scope, go) {
+  for (const child of [...node.childNodes]) {
+    if (child.nodeType === 3) { if (child.data.includes('{{')) child.data = fill(child.data, scope); continue; }
+    if (child.nodeType !== 1) continue;
+    const tag = child.localName;
+    if (tag === 'sc-for') {
+      const list = value(child.getAttribute('list') || '', scope) || [];
+      const as = child.getAttribute('as') || 'item';
+      const frag = document.createDocumentFragment();
+      list.forEach((item, i) => {
+        const tmp = document.createElement('div');
+        for (const c of child.childNodes) tmp.appendChild(c.cloneNode(true));
+        proc(tmp, { ...scope, [as]: item, $index: i }, go);
+        frag.append(...tmp.childNodes);
+      });
+      child.replaceWith(frag);
+      continue;
+    }
+    if (tag === 'sc-if') {
+      if (truthy(value(child.getAttribute('value') || '', scope))) { proc(child, scope, go); child.replaceWith(...child.childNodes); }
+      else child.remove();
+      continue;
+    }
+    for (const attr of [...child.attributes]) {
+      const n = attr.name;
+      if (n.startsWith('on')) {
+        const fn = value(attr.value, scope);
+        child.removeAttribute(n);
+        if (typeof fn === 'function') {
+          const ev = n.slice(2) === 'change' && child.localName === 'input' ? 'input' : n.slice(2);
+          child.addEventListener(ev, fn);
+        }
+      } else if (BOOL.includes(n) && ONLY.test(attr.value.trim())) {
+        if (truthy(value(attr.value, scope))) child.setAttribute(n, ''); else child.removeAttribute(n);
+      } else if (attr.value.includes('{{')) {
+        child.setAttribute(n, fill(attr.value, scope));
+      }
+    }
+    if (child.localName === 'a') {
+      const href = child.getAttribute('href') || '';
+      const m = href.match(/^([\w-]+)\.dc\.html$/);
+      if (m) child.addEventListener('click', (e) => { e.preventDefault(); go(m[1]); });
+      else if (href === '#') child.addEventListener('click', (e) => e.preventDefault());
+    }
+    proc(child, scope, go);
+  }
+}
+
+function mount(screen, host, go) {
+  const root = host.attachShadow({ mode: 'open' });
+  const tpl = document.getElementById('tpl-' + screen.id);
+  const Component = new Function('DCLogic', screen.code + '\nreturn Component;')(DCLogic);
+  const comp = new Component({ ...screen.props });
+  comp._render = () => {
+    // preserva foco e cursor ao re-renderizar (ex.: busca de pacientes)
+    const inputs = [...root.querySelectorAll('input,textarea')];
+    const idx = inputs.indexOf(root.activeElement);
+    const sel = idx >= 0 ? root.activeElement.selectionStart : null;
+    const frag = tpl.content.cloneNode(true);
+    const wrap = document.createElement('div');
+    wrap.append(frag);
+    proc(wrap, comp.renderVals(), go);
+    root.replaceChildren(...wrap.childNodes);
+    if (idx >= 0) {
+      const el = root.querySelectorAll('input,textarea')[idx];
+      if (el) { el.focus(); try { el.setSelectionRange(sel, sel); } catch (_) {} }
+    }
+  };
+  comp._render();
+}
+
+const bar = document.getElementById('bar');
+const stage = document.getElementById('stage');
+
+function show(id) {
+  const list = id ? SCREENS.filter((s) => s.id === id) : SCREENS;
+  stage.replaceChildren();
+  for (const s of list) {
+    const frame = document.createElement('section');
+    frame.className = 'frame' + (s.fluid ? ' fluid' : '');
+    const h = document.createElement('h2');
+    h.textContent = s.title;
+    const host = document.createElement('div');
+    host.className = 'host';
+    host.style.width = s.fluid ? '100%' : s.w + 'px';
+    host.style.minHeight = s.h + 'px';
+    if (!s.fluid) host.style.height = s.h + 'px';
+    host.style.borderRadius = s.radius + 'px';
+    frame.append(h, host);
+    stage.append(frame);
+    mount(s, host, (target) => { location.hash = target; });
+  }
+  for (const a of bar.querySelectorAll('a')) {
+    if (a.dataset.id === (id || '')) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+  }
+  window.scrollTo(0, 0);
+}
+
+bar.innerHTML = '<strong>FisioGestão</strong>';
+for (const s of SCREENS) {
+  const a = document.createElement('a');
+  a.href = '#' + s.id; a.dataset.id = s.id; a.textContent = s.title;
+  bar.append(a);
+}
+const all = document.createElement('a');
+all.href = '#'; all.dataset.id = ''; all.className = 'all'; all.textContent = 'Ver todas as telas';
+bar.append(all);
+
+const route = () => { const id = location.hash.slice(1); show(SCREENS.some((s) => s.id === id) ? id : ''); };
+window.addEventListener('hashchange', route);
+route();
+</script>
+</body>
+</html>
